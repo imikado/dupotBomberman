@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+    </qresource>
+    <qresource prefix="/images"/>
+    <qresource prefix="/js">
+        <file>Game.js</file>
+    </qresource>
+    <qresource prefix="/pages">
+        <file>GameOver.qml</file>
+        <file>Menu.qml</file>
+        <file>Scene.qml</file>
+        <file>Splashscreen.qml</file>
+        <file>ServerSide.qml</file>
+        <file>ClientSide.qml</file>
+        <file>test.qml</file>
+    </qresource>
+    <qresource prefix="/items">
+        <file>Bouton.qml</file>
+        <file>Left.qml</file>
+        <file>Right.qml</file>
+        <file>Wall.qml</file>
+    </qresource>
+</RCC>
