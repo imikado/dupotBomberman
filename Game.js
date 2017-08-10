@@ -218,6 +218,9 @@ function clickRight(){
 var tTeam=Array('blue','red','green','yellow');
 var sTeam='';
 
+var tWebsocket=Array();
+var iWebsocket=0;
+
 var iNextTeam=0;
 
 //---websocket
@@ -234,9 +237,13 @@ function webSocketClient_receive(message_){
 
 
 }
+var bConnected=false;
 function webSocketClient_send(message_){
 
-    main.webSocketConnectServer('ws://localhost:1027');
+    if(false===bConnected){
+        main.webSocketConnectServer('ws://localhost:1027');
+        bConnected=true;
+    }
     main.webSocketSendText(sTeam+":"+message_);
 }
 
@@ -250,6 +257,10 @@ function webSocketServer_receive(message_,websocket_){
 
         websocket_.sendTextMessage('setTeam:'+userTeam);
 
+        if(!tWebsocket[iNextTeam] ){
+            tWebsocket[iNextTeam]=websocket_;
+        }
+
         iNextTeam++;
     }else{
         message_+="\n";
@@ -257,6 +268,10 @@ function webSocketServer_receive(message_,websocket_){
         stack.currentItem.webSocketAppendMessage(qsTr("Server received message: %1").arg(message_));
 
         websocket_.sendTextMessage(qsTr("Hello Client!"));
+
+        for(var i in tWebsocket){
+            tWebsocket[i].sendTextMessage("Hello les autres clients");
+        }
 
     }
 
