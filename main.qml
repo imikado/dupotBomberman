@@ -22,6 +22,8 @@ Window {
             id: server
             listen: false
 
+
+
             onClientConnected: {
                 webSocket.onTextMessageReceived.connect(function(message) {
                     main.oGame.webSocketServer_receive(message,webSocket);
@@ -81,12 +83,19 @@ Window {
 
     }
 
-    function enableServer(){
+    function enableServer(port_){
+        server.port=port_;
+
+        //server.accept=true;
         server.listen=true;
+
+        console.log('eanble server on port : '+port_);
+
     }
 
     function webSocketConnectServer(server_){
         client.url=server_;
+        console.log('connect to '+server_);
     }
     function webSocketSendText(text_){
         client.active=true;
@@ -95,6 +104,8 @@ Window {
 
         console.log('client send message:'+text_);
     }
+
+
 
     Component.onCompleted:initApplication()
 

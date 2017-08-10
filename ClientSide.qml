@@ -12,7 +12,7 @@ Item {
         height: main.oGame.convert(40)
         TextEdit{
             id:serverUrl
-            text:"ws://localhost:1027"
+            text:main.oGame._urlWebsocket
 
         }
     }
@@ -40,6 +40,8 @@ Item {
         _height: main.oGame.convert(60)
         _text: qsTr("Se connecter!")
         _link:function(){
+
+            main.oGame._urlWebsocket=serverUrl.text;
 
             main.oGame.webSocketClient_send("test");
 

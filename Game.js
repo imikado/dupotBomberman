@@ -5,6 +5,7 @@ var tBigBall=Array();
 
 var tDirection=Array('haut','bas','gauche','droite');
 
+var _urlWebsocket='ws://localhost:1027';
 
 //dimensions réelles de l'écran
 var _width;
@@ -83,7 +84,7 @@ function gotoMenu(){
 
 function gotoServerSide(){
     _oPageServerSide=main.launchPage('ServerSide');
-    main.enableServer();
+    //main.enableServer();
 }
 function gotoClientSide(){
     _oPageServerSide=main.launchPage('ClientSide');
@@ -229,6 +230,8 @@ function webSocketClient_receive(message_){
 
    if(message_.substr(0,8)==='setTeam:'){
        sTeam=message_.substr(8);
+   }else if(message_==='gotoScene'){
+        gotoScene();
    }
 
    message_+="\n";
@@ -241,7 +244,7 @@ var bConnected=false;
 function webSocketClient_send(message_){
 
     if(false===bConnected){
-        main.webSocketConnectServer('ws://localhost:1027');
+        main.webSocketConnectServer(_urlWebsocket);
         bConnected=true;
     }
     main.webSocketSendText(sTeam+":"+message_);
@@ -262,6 +265,12 @@ function webSocketServer_receive(message_,websocket_){
         }
 
         iNextTeam++;
+    }else if(tMessage[1]==='start'){
+
+        for(var i in tWebsocket){
+            tWebsocket[i].sendTextMessage("gotoScene");
+        }
+
     }else{
         message_+="\n";
 

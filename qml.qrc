@@ -13,7 +13,6 @@
         <file>Splashscreen.qml</file>
         <file>ServerSide.qml</file>
         <file>ClientSide.qml</file>
-        <file>test.qml</file>
     </qresource>
     <qresource prefix="/items">
         <file>Bouton.qml</file>
