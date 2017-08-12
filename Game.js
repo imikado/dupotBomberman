@@ -92,6 +92,7 @@ function gotoGameover(){
 
 
 //jeu
+var tWalkBreakable=Array();
 
 function buildGame(){
 
@@ -99,6 +100,12 @@ function buildGame(){
 
     tMap=[
         [1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,2,1,0,1,0,1,0,1,0,1],
+        [1,0,2,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,2,1,0,1,0,1,0,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,0,1,0,1,0,1,0,1,0,1,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -116,11 +123,18 @@ function buildGame(){
     var iBigBall=0;
 
     var iNewBigBall=0;
+    var iWallBreakable=0;
 
     for(var y_=0;y_< tMap.length;y_++){
         for(var x_=0;x_ < tMap[0].length;x_++){
             if(tMap[y_][x_]===1){
                 modelWall.append({x:x_,y:y_});
+
+             }else if(tMap[y_][x_]===2){
+                modelWallBreakable.append({x:x_,y:y_});
+
+                tWalkBreakable[x_+'_'+y_]=iWallBreakable;
+                iWallBreakable++;
 
             }else if(tMap[y_][x_]===0){
 
@@ -129,9 +143,9 @@ function buildGame(){
     }
 
     modelPerso.append({x:1,y:1});
-    modelPerso.append({x:8,y:1});
-    modelPerso.append({x:1,y:8});
-    modelPerso.append({x:8,y:8});
+    modelPerso.append({x:11,y:1});
+    modelPerso.append({x:1,y:15});
+    modelPerso.append({x:11,y:15});
 
 }
 
@@ -139,6 +153,26 @@ function buildGame(){
 function cycle(){
 
 
+}
+
+function exploseBomb(x_,y_){
+    if(tMap[y_][x_]===2){
+        tMap[y_][x_]=0;
+
+        console.log('look for tWalkBreakable '+x_+'_'+y_);
+        if(tWalkBreakable[x_+'_'+y_] > -1 ){
+
+            var indexBreakable=tWalkBreakable[x_+'_'+y_];
+
+            console.log('remove modelWallBrakable, index : '+indexBreakable);
+            modelWallBreakable.remove( indexBreakable  );
+        }
+
+    }
+}
+function removeBomb(index_){
+    console.log('removeBomb : '+index_);
+    modelBomb.remove(index_);
 }
 
 
@@ -179,6 +213,14 @@ function clickRight(){
     webSocketClient_send('gotoRight');
 
 }
+function clickBomb(){
+    webSocketClient_send('putBomb');
+}
+
+function putBomb(x_,y_){
+    modelBomb.append({x:x_,y:y_});
+}
+
 
 var tTeam=Array('blue','red','green','yellow');
 var tTeamInverse=Array();
@@ -215,6 +257,9 @@ function webSocketClient_receive(message_){
            oPersoSocket.x-=1;
        }else if(tMessage[1]==='gotoRight' && iCanWalkDirection(oPersoSocket,'right') ){
            oPersoSocket.x+=1;
+       }else if(tMessage[1]==='putBomb'){
+           putBomb(oPersoSocket.x,oPersoSocket.y);
+
        }
    }
 

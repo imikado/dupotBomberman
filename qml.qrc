@@ -2,7 +2,12 @@
     <qresource prefix="/">
         <file>main.qml</file>
     </qresource>
-    <qresource prefix="/images"/>
+    <qresource prefix="/images">
+        <file>btnDown.png</file>
+        <file>btnLeft.png</file>
+        <file>btnRight.png</file>
+        <file>btnUp.png</file>
+    </qresource>
     <qresource prefix="/js">
         <file>Game.js</file>
     </qresource>
@@ -20,5 +25,8 @@
         <file>Right.qml</file>
         <file>Wall.qml</file>
         <file>Perso.qml</file>
+        <file>WallBreakable.qml</file>
+        <file>Center.qml</file>
+        <file>Bomb.qml</file>
     </qresource>
 </RCC>

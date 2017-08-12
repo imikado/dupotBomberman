@@ -14,9 +14,19 @@ Rectangle{
 
     Wall{}
 
+    WallBreakable{}
+
+    Bomb{}
 
 
     Perso{}
+
+    Center{
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: main.oGame.convert( 50)
+
+        x:main.oGame.convert( 250)
+    }
 
     Left{
         anchors.bottom: parent.bottom
