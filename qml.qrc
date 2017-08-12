@@ -19,5 +19,6 @@
         <file>Left.qml</file>
         <file>Right.qml</file>
         <file>Wall.qml</file>
+        <file>Perso.qml</file>
     </qresource>
 </RCC>

@@ -17,7 +17,7 @@ Window {
     contentOrientation :Qt.PortraitOrientation
 
     WebSocketServer {
-            port:1027
+            port:1100
             accept: true
             id: server
             listen: false
@@ -33,6 +33,11 @@ Window {
                     //webSocket.sendTextMessage(qsTr("Hello Client!"));
                 });
             }
+            onAcceptChanged: {
+                stack.currentItem.webSocketAppendMessage("serveur listening "+server.url+"");
+
+            }
+
             onErrorStringChanged: {
                 stack.currentItem.webSocketAppendMessage("serveur listening "+server.url+"");
                 stack.currentItem.webSocketAppendMessage(qsTr("Server error: %1").arg(errorString));
@@ -42,27 +47,28 @@ Window {
 
     WebSocket{
         id:client
-        url:"ws://localhost:1027"
+        url:"ws://localhost:1100"
         active: false
 
         //onTextMessageReceived:stack.currentItem.webSocketAppendMessage( qsTr("Client received message: %1").arg(message) );
         onTextMessageReceived:main.oGame.webSocketClient_receive(message);
+        onErrorStringChanged: main.oGame.webSocketClient_receive(errorString);
 
 
     }
 
     ListModel{
-        id:modelGhost
+        id:modelPerso
     }
-    ListModel{
-        id:modelBall
-    }
-    ListModel{
-        id:modelBigBall
-    }
+
     ListModel{
         id:modelWall
     }
+
+    /*
+    ListModel{
+        id:modelBoom
+    }*/
 
     //le composant qui nous permettra de naviguer dans le jeu
     StackView {

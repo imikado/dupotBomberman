@@ -29,7 +29,26 @@ Item {
 
         MouseArea{
             anchors.fill: parent
-            onPressed:_link()
+            onPressed:function(){
+                rect1Anim.start();
+                link.start();
+            }
+        }
+
+        Timer{
+            id:link
+            interval: 400
+            running:false
+            repeat: false
+            onTriggered: _link();
+        }
+
+        SequentialAnimation on color {
+            loops: 1
+            id:rect1Anim;
+            running:false;
+            ColorAnimation { from: "#d95e22"; to: "#991600"; duration: 200 }
+            ColorAnimation { from: "#991600"; to: "#d95e22"; duration: 500 }
         }
 
     }

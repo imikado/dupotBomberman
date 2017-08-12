@@ -5,7 +5,7 @@ var tBigBall=Array();
 
 var tDirection=Array('haut','bas','gauche','droite');
 
-var _urlWebsocket='ws://localhost:1027';
+var _urlWebsocket='ws://localhost:1100';
 
 //dimensions réelles de l'écran
 var _width;
@@ -25,18 +25,8 @@ var _oPageServerSide;
 
 
 
-function Perso(){
-    this.x=1;
-    this.y=1;
-    this.direction='droite';
-}
-Perso.prototype={
-}
-
-var oPerso=new Perso();
-
 function getTile(){
-    return 26;
+    return 50;
 }
 
 function getWidth(){
@@ -106,32 +96,19 @@ function gotoGameover(){
 function buildGame(){
 
 
-    oPerso._x=1;
-    oPerso._y=1;
-
 
     tMap=[
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,1,1,1,1,1,1,0,1,1,1,0,1,0,1,1,1,1,1,1,1,1,1,0,1],
-            [1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,1,1,1,1,1,1,0,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,1,1,1,1,0,1,1,0,1,1,1,0,1,1,1,1,0,1,1,0,1,1,1,1,1],
-            [3,3,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3,3,3,3],
-            [3,3,3,3,1,0,1,0,1,1,1,1,2,2,1,1,1,1,0,1,0,1,3,3,3,3],
-            [3,3,3,3,1,0,1,0,1,4,4,4,4,4,4,4,4,1,0,1,0,1,3,3,3,3],
-            [3,3,3,3,1,0,1,0,1,4,4,4,4,4,4,4,4,1,0,1,0,1,3,3,3,3],
-            [3,3,3,3,1,0,1,0,1,4,4,4,4,4,4,4,4,1,0,1,0,1,3,3,3,3],
-            [3,3,3,3,1,0,1,0,1,1,1,1,1,1,1,1,1,1,0,1,0,1,3,3,3,3],
-            [3,3,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3,3,3,3],
-            [1,1,1,1,1,1,1,1,0,1,0,1,1,1,0,1,0,1,1,0,1,1,1,1,1,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
-            [1,0,1,1,1,1,1,1,0,1,1,0,1,0,1,1,1,0,1,1,1,1,1,1,0,1],
-            [1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1],
-            [1,0,1,1,0,1,1,1,0,1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1],
 
         ];
 
@@ -146,28 +123,15 @@ function buildGame(){
                 modelWall.append({x:x_,y:y_});
 
             }else if(tMap[y_][x_]===0){
-                if(iNewBigBall && (iNewBigBall%30)==0){
-                    modelBigBall.append({x:x_,y:y_,visible:true});
 
-                    tBigBall[x_+'_'+y_]=iBigBall;
-                    iBigBall++;
-                }else{
-
-                    modelBall.append({x:x_,y:y_,visible:true});
-
-                    tBall[x_+'_'+y_]=iBall;
-                    iBall++;
-
-                }
-
-                iNewBigBall++;
             }
         }
     }
 
-    _oPageScene.movePerso( oPerso._x, oPerso._y );
-
-    //_oPageScene.startTimer();
+    modelPerso.append({x:1,y:1});
+    modelPerso.append({x:8,y:1});
+    modelPerso.append({x:1,y:8});
+    modelPerso.append({x:8,y:8});
 
 }
 
@@ -187,13 +151,13 @@ function iCanWalk(x_,y_){
 }
 
 function iCanWalkDirection(oObject_,direction_){
-    if(direction_==='haut' && iCanWalk(oObject_.x,oObject_.y-1) ){
+    if(direction_==='up' && iCanWalk(oObject_.x,oObject_.y-1) ){
         return true;
-    }else if(direction_==='bas' && iCanWalk(oObject_.x,oObject_.y+1) ){
+    }else if(direction_==='down' && iCanWalk(oObject_.x,oObject_.y+1) ){
         return true;
-    }else if(direction_==='gauche' && iCanWalk(oObject_.x-1,oObject_.y) ){
+    }else if(direction_==='left' && iCanWalk(oObject_.x-1,oObject_.y) ){
         return true;
-    }else if(direction_==='droite' && iCanWalk(oObject_.x+1,oObject_.y) ){
+    }else if(direction_==='right' && iCanWalk(oObject_.x+1,oObject_.y) ){
         return true;
     }
     return false;
@@ -201,22 +165,28 @@ function iCanWalkDirection(oObject_,direction_){
 
 
 function clickUp(){
-    oPerso.newdirection='haut';
+    webSocketClient_send('gotoUp');
 }
 function clickDown(){
-    oPerso.newdirection='bas';
+    webSocketClient_send('gotoDown');
 
 }
 function clickLeft(){
-    oPerso.newdirection='gauche';
+    webSocketClient_send('gotoLeft');
 
 }
 function clickRight(){
-    oPerso.newdirection='droite';
+    webSocketClient_send('gotoRight');
 
 }
 
 var tTeam=Array('blue','red','green','yellow');
+var tTeamInverse=Array();
+tTeamInverse['blue']=0;
+tTeamInverse['red']=1;
+tTeamInverse['green']=2;
+tTeamInverse['yellow']=3;
+
 var sTeam='';
 
 var tWebsocket=Array();
@@ -232,6 +202,20 @@ function webSocketClient_receive(message_){
        sTeam=message_.substr(8);
    }else if(message_==='gotoScene'){
         gotoScene();
+   }else{
+       var tMessage=message_.split(':');
+       var iTeamSocket=tTeamInverse[tMessage[0] ];
+       var oPersoSocket=modelPerso.get(tTeamInverse[tMessage[0] ] );
+
+       if(tMessage[1]==='gotoUp' && iCanWalkDirection(oPersoSocket,'up') ){
+           oPersoSocket.y-=1;
+       }else if(tMessage[1]==='gotoDown' && iCanWalkDirection(oPersoSocket,'down') ){
+           oPersoSocket.y+=1;
+       }else if(tMessage[1]==='gotoLeft' && iCanWalkDirection(oPersoSocket,'left') ){
+           oPersoSocket.x-=1;
+       }else if(tMessage[1]==='gotoRight' && iCanWalkDirection(oPersoSocket,'right') ){
+           oPersoSocket.x+=1;
+       }
    }
 
    message_+="\n";
@@ -272,14 +256,14 @@ function webSocketServer_receive(message_,websocket_){
         }
 
     }else{
-        message_+="\n";
+        //message_+="\n";
 
         stack.currentItem.webSocketAppendMessage(qsTr("Server received message: %1").arg(message_));
 
-        websocket_.sendTextMessage(qsTr("Hello Client!"));
+        //websocket_.sendTextMessage('qsTr("Hello Client!")'ok);
 
         for(var i in tWebsocket){
-            tWebsocket[i].sendTextMessage("Hello les autres clients");
+            tWebsocket[i].sendTextMessage(message_);
         }
 
     }

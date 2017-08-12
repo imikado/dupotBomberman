@@ -20,7 +20,7 @@ Item{
             id:port
             x:main.oGame.convert(50)
             width: main.oGame.convert(100)
-            text:"1027"
+            text:"1100"
 
         }
 
