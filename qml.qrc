@@ -7,6 +7,8 @@
         <file>btnLeft.png</file>
         <file>btnRight.png</file>
         <file>btnUp.png</file>
+        <file>bomb.png</file>
+        <file>bombExplose.png</file>
     </qresource>
     <qresource prefix="/js">
         <file>Game.js</file>

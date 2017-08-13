@@ -10,7 +10,7 @@ Repeater{
             id:itemLeft1
             width:main.oGame.convert(main.oGame.getTile() )
             height:main.oGame.convert(main.oGame.getTile() )
-            color:"#b3b500"
+            color:"transparent"
             visible:false
 
              radius: main.oGame.convert(20)
@@ -18,20 +18,26 @@ Repeater{
             x:( (model.x-1)*main.oGame.convert(main.oGame.getTile()) )
             y:( (model.y)*main.oGame.convert(main.oGame.getTile()) )
 
-            /*
-            Image {
+            AnimatedSprite {
+
                 width:parent.width
                 height:parent.height
                 anchors.centerIn: parent
-                source: "/images/wall.png"
-            }*/
+                source: "/images/bombExplose.png"
+                frameCount: 3
+
+                frameDuration: 400
+
+                frameWidth:  80
+                frameHeight: 80
+            }
 
         }
         Rectangle{
             id:itemLeft2
             width:main.oGame.convert(main.oGame.getTile() )
             height:main.oGame.convert(main.oGame.getTile() )
-            color:"#b3b500"
+            color:"transparent"
             visible:false
 
              radius: main.oGame.convert(20)
@@ -39,13 +45,19 @@ Repeater{
             x:( (model.x-2)*main.oGame.convert(main.oGame.getTile()) )
             y:( (model.y)*main.oGame.convert(main.oGame.getTile()) )
 
-            /*
-            Image {
+            AnimatedSprite {
+
                 width:parent.width
                 height:parent.height
                 anchors.centerIn: parent
-                source: "/images/wall.png"
-            }*/
+                source: "/images/bombExplose.png"
+                frameCount: 3
+
+                frameDuration: 400
+
+                frameWidth:  80
+                frameHeight: 80
+            }
 
         }
 
@@ -53,7 +65,7 @@ Repeater{
             id:itemRight1
             width:main.oGame.convert(main.oGame.getTile() )
             height:main.oGame.convert(main.oGame.getTile() )
-            color:"#b3b500"
+            color:"transparent"
             visible:false
 
             radius: main.oGame.convert(20)
@@ -61,13 +73,19 @@ Repeater{
             x:( (model.x+1)*main.oGame.convert(main.oGame.getTile()) )
             y:( (model.y)*main.oGame.convert(main.oGame.getTile()) )
 
-            /*
-            Image {
+            AnimatedSprite {
+
                 width:parent.width
                 height:parent.height
                 anchors.centerIn: parent
-                source: "/images/wall.png"
-            }*/
+                source: "/images/bombExplose.png"
+                frameCount: 3
+
+                frameDuration: 400
+
+                frameWidth:  80
+                frameHeight: 80
+            }
 
 
         }
@@ -75,7 +93,7 @@ Repeater{
             id:itemRight2
             width:main.oGame.convert(main.oGame.getTile() )
             height:main.oGame.convert(main.oGame.getTile() )
-            color:"#b3b500"
+            color:"transparent"
             visible:false
 
             radius: main.oGame.convert(20)
@@ -83,13 +101,19 @@ Repeater{
             x:( (model.x+2)*main.oGame.convert(main.oGame.getTile()) )
             y:( (model.y)*main.oGame.convert(main.oGame.getTile()) )
 
-            /*
-            Image {
+            AnimatedSprite {
+
                 width:parent.width
                 height:parent.height
                 anchors.centerIn: parent
-                source: "/images/wall.png"
-            }*/
+                source: "/images/bombExplose.png"
+                frameCount: 3
+
+                frameDuration: 400
+
+                frameWidth:  80
+                frameHeight: 80
+            }
 
 
         }
@@ -98,7 +122,7 @@ Repeater{
             id:itemUp1
             width:main.oGame.convert(main.oGame.getTile() )
             height:main.oGame.convert(main.oGame.getTile() )
-            color:"#b3b500"
+            color:"transparent"
             visible:false
 
             radius: main.oGame.convert(20)
@@ -106,13 +130,19 @@ Repeater{
             x:( (model.x)*main.oGame.convert(main.oGame.getTile()) )
             y:( (model.y-1)*main.oGame.convert(main.oGame.getTile()) )
 
-            /*
-            Image {
+            AnimatedSprite {
+
                 width:parent.width
                 height:parent.height
                 anchors.centerIn: parent
-                source: "/images/wall.png"
-            }*/
+                source: "/images/bombExplose.png"
+                frameCount: 3
+
+                frameDuration: 400
+
+                frameWidth:  80
+                frameHeight: 80
+            }
 
 
         }
@@ -120,7 +150,7 @@ Repeater{
             id:itemUp2
             width:main.oGame.convert(main.oGame.getTile() )
             height:main.oGame.convert(main.oGame.getTile() )
-            color:"#b3b500"
+            color:"transparent"
             visible:false
 
             radius: main.oGame.convert(20)
@@ -128,13 +158,19 @@ Repeater{
             x:( (model.x)*main.oGame.convert(main.oGame.getTile()) )
             y:( (model.y-2)*main.oGame.convert(main.oGame.getTile()) )
 
-            /*
-            Image {
+            AnimatedSprite {
+
                 width:parent.width
                 height:parent.height
                 anchors.centerIn: parent
-                source: "/images/wall.png"
-            }*/
+                source: "/images/bombExplose.png"
+                frameCount: 3
+
+                frameDuration: 400
+
+                frameWidth:  80
+                frameHeight: 80
+            }
 
 
         }
@@ -143,7 +179,7 @@ Repeater{
             id:itemDown1
             width:main.oGame.convert(main.oGame.getTile() )
             height:main.oGame.convert(main.oGame.getTile() )
-            color:"#b3b500"
+            color:"transparent"
             visible:false
 
             radius: main.oGame.convert(20)
@@ -151,13 +187,19 @@ Repeater{
             x:( (model.x)*main.oGame.convert(main.oGame.getTile()) )
             y:( (model.y+1)*main.oGame.convert(main.oGame.getTile()) )
 
-            /*
-            Image {
+            AnimatedSprite {
+
                 width:parent.width
                 height:parent.height
                 anchors.centerIn: parent
-                source: "/images/wall.png"
-            }*/
+                source: "/images/bombExplose.png"
+                frameCount: 3
+
+                frameDuration: 400
+
+                frameWidth:  80
+                frameHeight: 80
+            }
 
 
         }
@@ -165,7 +207,7 @@ Repeater{
             id:itemDown2
             width:main.oGame.convert(main.oGame.getTile() )
             height:main.oGame.convert(main.oGame.getTile() )
-            color:"#b3b500"
+            color:"transparent"
             visible:false
 
             radius: main.oGame.convert(20)
@@ -173,13 +215,19 @@ Repeater{
             x:( (model.x)*main.oGame.convert(main.oGame.getTile()) )
             y:( (model.y+2)*main.oGame.convert(main.oGame.getTile()) )
 
-            /*
-            Image {
+            AnimatedSprite {
+
                 width:parent.width
                 height:parent.height
                 anchors.centerIn: parent
-                source: "/images/wall.png"
-            }*/
+                source: "/images/bombExplose.png"
+                frameCount: 3
+
+                frameDuration: 400
+
+                frameWidth:  80
+                frameHeight: 80
+            }
 
 
         }
@@ -189,27 +237,31 @@ Repeater{
             id:item
             width:main.oGame.convert(main.oGame.getTile() )
             height:main.oGame.convert(main.oGame.getTile() )
-            color:"#b3b500"
-
-            radius: main.oGame.convert(20)
+            color:"transparent"
 
             x:(model.x*main.oGame.convert(main.oGame.getTile()) )
             y:(model.y*main.oGame.convert(main.oGame.getTile()) )
 
-            /*
-            Image {
+            AnimatedSprite {
+
                 width:parent.width
                 height:parent.height
                 anchors.centerIn: parent
-                source: "/images/wall.png"
-            }*/
+                source: "/images/bomb.png"
+                frameCount: 3
+
+                frameDuration: 400
+
+                frameWidth:  80
+                frameHeight: 80
+            }
 
 
         }
 
         Timer{
             id:explose1
-            interval: 2000
+            interval: 6000
             running:true
             repeat: false
             onTriggered:explose()
@@ -217,7 +269,7 @@ Repeater{
 
         Timer{
             id:explose2
-            interval: 2500
+            interval: 6500
             running:true
             repeat: false
             onTriggered: main.oGame.removeBomb(model.index)
