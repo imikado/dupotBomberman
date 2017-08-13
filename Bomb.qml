@@ -232,6 +232,35 @@ Repeater{
 
         }
 
+        Rectangle{
+            id:itemExplose
+            width:main.oGame.convert(main.oGame.getTile() )
+            height:main.oGame.convert(main.oGame.getTile() )
+            color:"transparent"
+            visible:false
+
+            radius: main.oGame.convert(20)
+
+            x:( (model.x)*main.oGame.convert(main.oGame.getTile()) )
+            y:( (model.y)*main.oGame.convert(main.oGame.getTile()) )
+
+            AnimatedSprite {
+
+                width:parent.width
+                height:parent.height
+                anchors.centerIn: parent
+                source: "/images/bombExplose.png"
+                frameCount: 3
+
+                frameDuration: 400
+
+                frameWidth:  80
+                frameHeight: 80
+            }
+
+
+        }
+
 
         Rectangle{
             id:item
@@ -261,7 +290,7 @@ Repeater{
 
         Timer{
             id:explose1
-            interval: 6000
+            interval: 5000
             running:true
             repeat: false
             onTriggered:explose()
@@ -269,41 +298,49 @@ Repeater{
 
         Timer{
             id:explose2
-            interval: 6500
+            interval: 7500
             running:true
             repeat: false
             onTriggered: main.oGame.removeBomb(model.index)
         }
 
         function show(direction_,i_){
+
+            var currentItem='';
+
             if(direction_==='left'){
                 if(i_===1){
-                    itemLeft1.visible=true;
+                    currentItem=itemLeft1;
                 }else{
-                    itemLeft2.visible=true;
+                    currentItem=itemLeft2;
                 }
             }else if(direction_==='right'){
                 if(i_===1){
-                    itemRight1.visible=true;
+                    currentItem=itemRight1;
                 }else{
-                    itemRight2.visible=true;
+                    currentItem=itemRight2;
                 }
             }else if(direction_==='up'){
                 if(i_===1){
-                    itemUp1.visible=true;
+                    currentItem=itemUp1;
                 }else{
-                    itemUp2.visible=true;
+                    currentItem=itemUp2;
                 }
             }else if(direction_==='down'){
                 if(i_===1){
-                    itemDown1.visible=true;
+                    currentItem=itemDown1;
                 }else{
-                    itemDown2.visible=true;
+                    currentItem=itemDown2;
                 }
             }
+
+            currentItem.visible=true;
         }
 
         function explose(){
+
+            item.visible=false;
+            itemExplose.visible=true;
 
             main.oGame.exploseBomb(model.x,model.y);
 
