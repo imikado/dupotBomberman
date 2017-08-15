@@ -1,3 +1,5 @@
+var gameStarted=false;
+
 var tMap=Array();
 
 var tBall=Array();
@@ -142,11 +144,12 @@ function buildGame(){
         }
     }
 
-    modelPerso.append({x:1,y:1});
-    modelPerso.append({x:11,y:1});
-    modelPerso.append({x:1,y:15});
-    modelPerso.append({x:11,y:15});
+    modelPerso.append({x:1,y:1,visible:true});
+    modelPerso.append({x:11,y:1,visible:true});
+    modelPerso.append({x:1,y:15,visible:true});
+    modelPerso.append({x:11,y:15,visible:true});
 
+    gameStarted=true;
 }
 
 
@@ -166,6 +169,21 @@ function exploseBomb(x_,y_){
 
             console.log('remove modelWallBrakable, index : '+indexBreakable);
             modelWallBreakable.remove( indexBreakable  );
+        }
+
+    }else if(tMap[y_][x_]===0){
+
+        console.log('check perso x,y :'+x_+' '+y_);
+
+        //loop perso to know if there is anybody
+        var maxPerso=modelPerso.count;
+        for(var i=0;i<maxPerso;i++){
+            var oCheckPerso=modelPerso.get(i);
+            console.log('check x,y :'+x_+' '+y_+' vs perso.x'+oCheckPerso.x+' perso.y'+oCheckPerso.y);
+            if(oCheckPerso.x===x_ && oCheckPerso.y===y_){
+                console.log('perso find');
+                oCheckPerso.visible=false;
+            }
         }
 
     }
@@ -276,7 +294,16 @@ function webSocketClient_send(message_){
         main.webSocketConnectServer(_urlWebsocket);
         bConnected=true;
     }
-    main.webSocketSendText(sTeam+":"+message_);
+    var iTeamToSend=tTeamInverse[sTeam];
+    if(gameStarted){
+        if(modelPerso.get(iTeamToSend).visible===true ){
+            main.webSocketSendText(sTeam+":"+message_);
+        }else{
+            console.log('gameover can not play');
+        }
+    }else{
+        main.webSocketSendText(sTeam+":"+message_);
+    }
 }
 
 //server

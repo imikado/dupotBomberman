@@ -9,6 +9,8 @@ Repeater{
         height:main.oGame.convert(main.oGame.getTile() )
         color:"#99ffff"
 
+        visible:model.visible
+
         radius: main.oGame.convert(10)
 
         x:(model.x*main.oGame.convert(main.oGame.getTile()) )

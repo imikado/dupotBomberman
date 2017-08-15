@@ -20,6 +20,8 @@ Repeater{
 
             AnimatedSprite {
 
+                id:itemLeft1Sprite
+
                 width:parent.width
                 height:parent.height
                 anchors.centerIn: parent
@@ -46,6 +48,8 @@ Repeater{
             y:( (model.y)*main.oGame.convert(main.oGame.getTile()) )
 
             AnimatedSprite {
+
+                id:itemLeft2Sprite
 
                 width:parent.width
                 height:parent.height
@@ -75,6 +79,8 @@ Repeater{
 
             AnimatedSprite {
 
+                id:itemRight1Sprite
+
                 width:parent.width
                 height:parent.height
                 anchors.centerIn: parent
@@ -102,6 +108,8 @@ Repeater{
             y:( (model.y)*main.oGame.convert(main.oGame.getTile()) )
 
             AnimatedSprite {
+
+                id:itemRight2Sprite
 
                 width:parent.width
                 height:parent.height
@@ -132,6 +140,8 @@ Repeater{
 
             AnimatedSprite {
 
+                id:itemUp1Sprite
+
                 width:parent.width
                 height:parent.height
                 anchors.centerIn: parent
@@ -159,6 +169,8 @@ Repeater{
             y:( (model.y-2)*main.oGame.convert(main.oGame.getTile()) )
 
             AnimatedSprite {
+
+                id:itemUp2Sprite
 
                 width:parent.width
                 height:parent.height
@@ -189,6 +201,8 @@ Repeater{
 
             AnimatedSprite {
 
+                id:itemDown1Sprite
+
                 width:parent.width
                 height:parent.height
                 anchors.centerIn: parent
@@ -216,6 +230,8 @@ Repeater{
             y:( (model.y+2)*main.oGame.convert(main.oGame.getTile()) )
 
             AnimatedSprite {
+
+                id:itemDown2Sprite
 
                 width:parent.width
                 height:parent.height
@@ -245,6 +261,8 @@ Repeater{
             y:( (model.y)*main.oGame.convert(main.oGame.getTile()) )
 
             AnimatedSprite {
+
+                id:itemExploseSprite
 
                 width:parent.width
                 height:parent.height
@@ -307,40 +325,52 @@ Repeater{
         function show(direction_,i_){
 
             var currentItem='';
+            var currentItemSprite='';
 
             if(direction_==='left'){
                 if(i_===1){
                     currentItem=itemLeft1;
+                    currentItemSprite=itemLeft1Sprite;
                 }else{
                     currentItem=itemLeft2;
+                    currentItemSprite=itemLeft2Sprite
                 }
             }else if(direction_==='right'){
                 if(i_===1){
                     currentItem=itemRight1;
+                    currentItemSprite=itemRight1Sprite;
                 }else{
                     currentItem=itemRight2;
+                    currentItemSprite=itemRight2Sprite;
                 }
             }else if(direction_==='up'){
                 if(i_===1){
                     currentItem=itemUp1;
+                    currentItemSprite=itemUp1Sprite;
                 }else{
                     currentItem=itemUp2;
+                    currentItemSprite=itemUp2Sprite;
                 }
             }else if(direction_==='down'){
                 if(i_===1){
                     currentItem=itemDown1;
+                    currentItemSprite=itemDown1Sprite;
                 }else{
                     currentItem=itemDown2;
+                    currentItemSprite=itemDown2Sprite;
                 }
             }
 
             currentItem.visible=true;
+            currentItemSprite.restart();
+
         }
 
         function explose(){
 
             item.visible=false;
             itemExplose.visible=true;
+            itemExploseSprite.restart();
 
             main.oGame.exploseBomb(model.x,model.y);
 
