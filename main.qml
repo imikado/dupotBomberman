@@ -8,19 +8,25 @@ import "/js/Game.js" as Game
 
 Window {
     id:main
-    visible: true
+    objectName:"main"
+     visible: true
 
     color:"#224422"
 
     property var oGame
 
+
+
     contentOrientation :Qt.PortraitOrientation
 
+    /*
     WebSocketServer {
+
             port:1100
             accept: true
             id: server
-            listen: false
+            listen: true
+
 
 
 
@@ -47,15 +53,16 @@ Window {
 
     WebSocket{
         id:client
-        url:"ws://localhost:1100"
         active: false
+        url:server.url
 
         //onTextMessageReceived:stack.currentItem.webSocketAppendMessage( qsTr("Client received message: %1").arg(message) );
-        onTextMessageReceived:main.oGame.webSocketClient_receive(message);
+        onTextMessageReceived:main.oGame.webSocketClient_receive(server.url+')'+message);
         onErrorStringChanged: main.oGame.webSocketClient_receive(errorString);
 
 
     }
+    */
 
     ListModel{
         id:modelPerso
@@ -91,6 +98,8 @@ Window {
         return stack.push('qrc:/pages/'+sView+'.qml');
     }
     function initApplication(){
+
+        console.log('mon ip'+applicationData.getIp());
         this.oGame=Game;
         //oGame.start(Screen.width,Screen.height);
         this.oGame.start(400,650);
@@ -98,26 +107,54 @@ Window {
     }
 
     function enableServer(port_){
-        server.port=port_;
+
+        applicationData.connectServer(port_);
+
+        //server.url='ws://'+applicationData.getIp();
+        //server.host=applicationData.getIp();
+        //server.host='127.0.0.1';
+        //server.host='localhost';
+        //server.port=port_;
 
         //server.accept=true;
-        server.listen=true;
+        //server.listen=true;
+
 
         console.log('eanble server on port : '+port_);
 
     }
 
     function webSocketConnectServer(server_){
-        client.url=server_;
+
+        applicationData.connectClient(server_);
+
+        //client.url=server_;
+
+        //if(client.errorString){
+         //   console.log('error:'+client.errorString);
+        //}
+
+
         console.log('connect to '+server_);
     }
     function webSocketSendText(text_){
-        client.active=true;
+
+        applicationData.sendMessage(text_);
+
+        /*client.active=true;
         client.sendTextMessage(text_);
 
 
+        if(client.errorString){
+
+            console.log('error:'+client.errorString+' '+client.closeReason );
+           // main.oGame.bConnected=false;
+        }
+        */
+
         console.log('client send message:'+text_);
     }
+
 
 
 

@@ -21,7 +21,7 @@ Item {
         y:main.oGame.convert(50)
         color:"#ffffff"
         width: main.oGame.convert(380)
-        height: main.oGame.convert(140)
+        height: main.oGame.convert(440)
         Text{
             id:textlog
             wrapMode: TextEdit.Wrap
@@ -34,7 +34,7 @@ Item {
     }
 
     Bouton{
-        y:main.oGame.convert(200)
+        y:main.oGame.convert(500)
 
         _width: main.oGame.convert(380)
         _height: main.oGame.convert(60)

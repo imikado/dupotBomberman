@@ -6,29 +6,33 @@ Item{
     id:serverSide
 
     Rectangle{
-        x: main.oGame.convert(441)
+        x: main.oGame.convert(340)
         y: main.oGame.convert(16)
-        width: main.oGame.convert(200)
-        height: main.oGame.convert(20)
+        width: main.oGame.convert(300)
+        height: main.oGame.convert(30)
 
         Text{
-            width: main.oGame.convert(50)
-            text: "Port : "
+            x:main.oGame.convert(5)
+            height:  main.oGame.convert(30)
+            width: main.oGame.convert(140)
+            text: applicationData.getIp()+ " port : "
         }
+
 
         TextInput{
             id:port
-            x:main.oGame.convert(50)
+            x:main.oGame.convert(220)
             width: main.oGame.convert(100)
             text:"1100"
 
         }
 
+
         Bouton{
-            x:main.oGame.convert(150)
+            x:main.oGame.convert(300)
 
             _width: main.oGame.convert(60)
-            _height: main.oGame.convert(20)
+            _height: main.oGame.convert(30)
             _text: qsTr("Go!")
             _link:function(){main.enableServer(port.text)}
         }

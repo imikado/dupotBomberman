@@ -1,3 +1,8 @@
+
+function debug(text_){
+    console.log(text_);
+}
+
 var gameStarted=false;
 
 var tMap=Array();
@@ -7,7 +12,10 @@ var tBigBall=Array();
 
 var tDirection=Array('haut','bas','gauche','droite');
 
-var _urlWebsocket='ws://localhost:1100';
+var _urlWebsocket='ws://127.0.0.1:1100';
+//var _urlWebsocket='ws://localhost:1100';
+
+//var _urlWebsocket='ws://192.168.1.11:1100';
 
 //dimensions réelles de l'écran
 var _width;

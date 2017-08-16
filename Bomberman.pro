@@ -1,8 +1,20 @@
-QT += qml quick
+QT += core qml quick websockets
+
+TARGET = Bomberman
 
 CONFIG += c++11
 
-SOURCES += main.cpp
+TEMPLATE=app
+
+
+SOURCES += main.cpp \
+	server.cpp \
+    client.cpp
+
+HEADERS += \
+	server.h \
+    client.h
+
 
 RESOURCES += qml.qrc
 
@@ -27,3 +39,4 @@ DEFINES += QT_DEPRECATED_WARNINGS
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
