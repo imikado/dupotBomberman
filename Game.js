@@ -315,7 +315,39 @@ function webSocketClient_send(message_){
 }
 
 //server
-function webSocketServer_receive(message_,websocket_){
+function webSocketServer_receive(message_){
+
+    var sReturn;
+    var sUserReturn='';
+    var sAllReturn='';
+
+    var tMessage=message_.split(':');
+    if(tMessage[0]===''){
+
+        var userTeam=tTeam[ iNextTeam ];
+
+        sUserReturn='setTeam:'+userTeam;
+
+        iNextTeam++;
+    }else if(tMessage[1]==='start'){
+
+        sAllReturn="gotoScene";
+
+
+    }else{
+
+        stack.currentItem.webSocketAppendMessage(qsTr("Server received message: %1").arg(message_));
+
+        sAllReturn=message_;
+
+    }
+
+    return sUserReturn+'###'+sAllReturn;
+
+}
+
+
+function OFFwebSocketServer_receive(message_,websocket_){
 
     var tMessage=message_.split(':');
     if(tMessage[0]===''){

@@ -23,7 +23,7 @@ public:
     }
 
     Q_INVOKABLE void connectServer(QString port_){
-        oServer=new Server(port_,true);
+        oServer=new Server(port_,true,oQml);
     }
 
     Q_INVOKABLE void connectClient(QString url_){

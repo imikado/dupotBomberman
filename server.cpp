@@ -5,10 +5,10 @@
 
 QT_USE_NAMESPACE
 
-Server::Server( QString port,bool bDebug) : QWebSocketServer(QStringLiteral("Server"),
+Server::Server( QString port,bool bDebug, QObject * oQml_) : QWebSocketServer(QStringLiteral("Server"),
                                                              QWebSocketServer::NonSecureMode)
     {
-
+    _oQml=oQml_;
     qDebug()<<"constructeur";
 
     connect(this, &QWebSocketServer::newConnection,
@@ -19,6 +19,7 @@ Server::Server( QString port,bool bDebug) : QWebSocketServer(QStringLiteral("Ser
     connect(this,  &QWebSocketServer::acceptError, this,&Server::acceptError);
 
     connect (this, &QWebSocketServer::closed, this, &Server::onClose);
+
 
 
     if (listen(QHostAddress::Any, port.toInt()))
@@ -45,12 +46,32 @@ void Server::processMessage(QString message)
 {
 
     qDebug( )<< "Server : receive msg:"<< message;
+
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(_oQml, "webSocketServer_message",
+             Q_RETURN_ARG(QVariant, returnedValue),
+            Q_ARG(QVariant, message));
+
+    QString sReturn= returnedValue.toString();
+
+    QStringList tReturn=sReturn.split("###");
+
+    QString sUserReturn="";
+    QString sAllReturn="";
+
+    sUserReturn=tReturn[0];
+    sAllReturn=tReturn[1];
+
     QWebSocket *pSender = qobject_cast<QWebSocket *>(sender());
     for (QWebSocket *pClient : qAsConst(m_clients)) {
-        //if (pClient != pSender) //don't echo message back to sender
-        //{
-            pClient->sendTextMessage(message);
-        //}
+        if (pClient == pSender && sUserReturn!="") //don't echo message back to sender
+        {
+
+            pClient->sendTextMessage(sUserReturn);
+        }
+        if(sAllReturn!=""){
+            pClient->sendTextMessage(sAllReturn);
+        }
     }
 }
 

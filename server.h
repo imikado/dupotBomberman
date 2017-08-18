@@ -16,12 +16,14 @@ class Server : public QWebSocketServer
 public:
     Server();
 
-    Server(QString port,bool bDebug);
+    Server(QString port,bool bDebug,QObject * Qml);
 
     bool isConnecteda;
     QString _sUrl;
 
     QList<QWebSocket *> m_clients;
+
+     QObject * _oQml;
 
 protected slots:
     void onNewConnection();
