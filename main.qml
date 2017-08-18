@@ -16,6 +16,10 @@ Window {
     property var oGame
 
 
+    function webSocketClient_message(  message){
+        console.log('receive QML '+message);
+        main.oGame.webSocketClient_receive(message);
+    }
 
     contentOrientation :Qt.PortraitOrientation
 

@@ -16,12 +16,18 @@ public:
     Server *oServer;
     Client *oClient;
 
+    QObject *oQml;
+
+    void setQmlObject(QObject *oQml_){
+        oQml=oQml_;
+    }
+
     Q_INVOKABLE void connectServer(QString port_){
-         Server oServer(port_.toInt());
+        oServer=new Server(port_,true);
     }
 
     Q_INVOKABLE void connectClient(QString url_){
-       Client oClient(url_,true);
+        oClient =new Client(url_,true,oQml);
     }
 
 
@@ -59,11 +65,20 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
+
+     QQmlApplicationEngine engine;
+
     ApplicationData data;
 
-    QQmlApplicationEngine engine;
+
+
     engine.rootContext()->setContextProperty("applicationData", &data);
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
+
+
+    QList<QObject*> rootObjt=engine.rootObjects();
+
+    data.setQmlObject( rootObjt[0] );
 
 
 
