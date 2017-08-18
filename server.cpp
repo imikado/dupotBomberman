@@ -27,6 +27,10 @@ Server::Server( QString port,bool bDebug, QObject * oQml_) : QWebSocketServer(QS
 
         qDebug() << "Chat Server listening (" << isListening() << ") on port" << serverUrl();
 
+        //signal
+        //showBoxUser
+        QMetaObject::invokeMethod(_oQml, "showBoxUser");
+
     }else{
         qDebug() << errorString();
     }

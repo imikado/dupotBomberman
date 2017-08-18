@@ -15,6 +15,9 @@ Window {
 
     property var oGame
 
+    function showBoxUser(){
+        stack.currentItem.showBoxUser();
+    }
 
     function webSocketClient_message(message){
         console.log('receive QML webSocketClient_receive '+message);
