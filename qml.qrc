@@ -16,6 +16,9 @@
         <file>persoGreen.png</file>
         <file>persoBlue.png</file>
         <file>persoRed.png</file>
+        <file>pageGameOver.png</file>
+        <file>pageLogoMobileDupot.jpg</file>
+        <file>pageStartGame.png</file>
     </qresource>
     <qresource prefix="/js">
         <file>Game.js</file>
