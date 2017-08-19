@@ -14,7 +14,7 @@ Repeater{
         radius: main.oGame.convert(10)
 
         x:(model.x*main.oGame.convert(main.oGame.getTile()) )
-        y:(model.y*main.oGame.convert(main.oGame.getTile()) )-main.oGame.convert(10)
+        y:(model.y*main.oGame.convert(main.oGame.getTile()) )-main.oGame.convert(20)
 
         /*
         Image {
@@ -24,17 +24,21 @@ Repeater{
             source: "/images/wall.png"
         }*/
 
+        Behavior on x  { SmoothedAnimation { velocity: 100 } }
+        Behavior on y  { SmoothedAnimation { velocity: 100 } }
+
         AnimatedSprite {
+
 
             id:itemLeft2Sprite
 
             width:parent.width
             height:parent.height
             anchors.centerIn: parent
-            source: "/images/perso.png"
+            source: "/images/"+model.img+".png"
             frameCount: 3
 
-            frameDuration: 100
+            frameDuration: 120
             interpolate:true
 
 

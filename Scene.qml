@@ -5,7 +5,7 @@ import "qrc:/items/"
 
 Rectangle{
     visible:true
-    color:'#262d2f'
+    color:'#3b606b'
     width:main.oGame.getWidth()
     height:main.oGame.getHeight()
 
@@ -26,6 +26,8 @@ Rectangle{
         anchors.bottomMargin: main.oGame.convert( 50)
 
         x:main.oGame.convert( 250)
+
+
     }
 
     Left{

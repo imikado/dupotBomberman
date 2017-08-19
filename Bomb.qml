@@ -308,7 +308,7 @@ Repeater{
 
         Timer{
             id:explose1
-            interval: 5000
+            interval: 4000
             running:true
             repeat: false
             onTriggered:explose()
@@ -316,7 +316,7 @@ Repeater{
 
         Timer{
             id:explose2
-            interval: 7500
+            interval: 4500
             running:true
             repeat: false
             onTriggered: main.oGame.removeBomb(model.index)

@@ -9,7 +9,7 @@ Item{
 
     Rectangle{
         id:rect1
-        color:"#131564"
+        color:"#3f1364"
         width:main.oGame.convert(180)
         height:main.oGame.convert(90)
         radius: main.oGame.convert(20)
@@ -24,6 +24,26 @@ Item{
             anchors.verticalCenter:  parent.verticalCenter;
         }
         */
+
+        AnimatedSprite {
+
+
+
+
+
+
+            width:main.oGame.convert( 50)
+            height:main.oGame.convert( 50)
+            anchors.horizontalCenter:  parent.horizontalCenter
+             anchors.verticalCenter:  parent.verticalCenter;
+            source: "/images/bomb.png"
+            frameCount: 3
+
+            frameDuration: 400
+
+            frameWidth:  80
+            frameHeight: 80
+        }
 
         MouseArea{
             anchors.fill: parent
