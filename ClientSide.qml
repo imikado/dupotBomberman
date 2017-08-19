@@ -21,6 +21,8 @@ Item {
             y:main.oGame.convert(5)
             id:serverUrl
             text:main.oGame._urlWebsocket
+            width: main.oGame.convert(500)
+            height: main.oGame.convert(40)
 
         }
     }
