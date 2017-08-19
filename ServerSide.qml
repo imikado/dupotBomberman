@@ -100,9 +100,23 @@ Item{
 
 
 
+        Bouton{
+            id:btnConnectGame
+            visible:true
+            y:main.oGame.convert(360)
+
+            _width: main.oGame.convert(640)
+            _height: main.oGame.convert(60)
+            _text: qsTr("Se connecter")
+            _link:function(){main.oGame.webSocketClient_send("test")}
+
+
+        }
 
 
         Bouton{
+            id:btnLaunchGame
+            visible:false
             y:main.oGame.convert(360)
 
             _width: main.oGame.convert(640)
@@ -112,6 +126,11 @@ Item{
 
 
         }
+    }
+
+    function hideBoxClient(){
+        btnConnectGame.visible=false;
+        btnLaunchGame.visible=true;
     }
 
     function showBoxUser(){
