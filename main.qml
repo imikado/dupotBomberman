@@ -115,8 +115,8 @@ Window {
 
         console.log('mon ip'+applicationData.getIp());
         this.oGame=Game;
-        //oGame.start(Screen.width,Screen.height);
-        this.oGame.start(400,650);
+        oGame.start(Screen.width,Screen.height);
+        //this.oGame.start(400,650);
 
     }
 
