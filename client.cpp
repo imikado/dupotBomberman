@@ -27,6 +27,11 @@ void Client::SL_Connected()
     {
     qDebug() << "Connected to server on port" ;
     isConnecteda=true;
+
+
+    QMetaObject::invokeMethod(_oQml, "hideBoxClient");
+
+
     }
 
 void Client::SL_Disconnected()

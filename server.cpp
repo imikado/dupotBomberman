@@ -43,6 +43,24 @@ void Server::onNewConnection()
     connect(pSocket, &QWebSocket::textMessageReceived, this, &Server::processMessage);
     connect(pSocket, &QWebSocket::disconnected, this, &Server::socketDisconnected);
 
+    //enregistrement team
+
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(_oQml, "webSocketServer_message",
+                              Q_RETURN_ARG(QVariant, returnedValue),
+                              Q_ARG(QVariant, ":connect"));
+
+    QString sReturn= returnedValue.toString();
+
+    QStringList tReturn=sReturn.split("###");
+    QString sUserReturn="";
+    QString sAllReturn="";
+
+    sUserReturn=tReturn[0];
+    sAllReturn=tReturn[1];
+
+    pSocket->sendTextMessage(sUserReturn);
+
     m_clients << pSocket;
 }
 

@@ -267,9 +267,15 @@ var iNextTeam=0;
 function webSocketClient_receive(message_){
 
    if(message_.substr(0,8)==='setTeam:'){
+       bConnected=true;
        sTeam=message_.substr(8);
+
+       stack.currentItem.webSocketAppendMessage( "Message: vous etes le User "+sTeam );
+       return;
+
    }else if(message_==='gotoScene'){
-        gotoScene();
+       gotoScene();
+       return;
    }else{
        var tMessage=message_.split(':');
        var iTeamSocket=tTeamInverse[tMessage[0] ];
@@ -289,8 +295,8 @@ function webSocketClient_receive(message_){
        }
    }
 
-   message_+="\n";
-   stack.currentItem.webSocketAppendMessage( qsTr("Client received message: %1").arg((message_)) );
+   //message_+="\n";
+   //stack.currentItem.webSocketAppendMessage( qsTr("Client received message: %1").arg((message_)) );
 
 
 
@@ -300,17 +306,18 @@ function webSocketClient_send(message_){
 
     if(false===bConnected){
         main.webSocketConnectServer(_urlWebsocket);
-        bConnected=true;
-    }
-    var iTeamToSend=tTeamInverse[sTeam];
-    if(gameStarted){
-        if(modelPerso.get(iTeamToSend).visible===true ){
-            main.webSocketSendText(sTeam+":"+message_);
-        }else{
-            console.log('gameover can not play');
-        }
+
     }else{
-        main.webSocketSendText(sTeam+":"+message_);
+        var iTeamToSend=tTeamInverse[sTeam];
+        if(gameStarted){
+            if(modelPerso.get(iTeamToSend).visible===true ){
+                main.webSocketSendText(sTeam+":"+message_);
+            }else{
+                console.log('gameover can not play');
+            }
+        }else{
+            main.webSocketSendText(sTeam+":"+message_);
+        }
     }
 }
 
@@ -327,6 +334,8 @@ function webSocketServer_receive(message_){
         var userTeam=tTeam[ iNextTeam ];
 
         sUserReturn='setTeam:'+userTeam;
+
+        stack.currentItem.webSocketAppendMessage("New User "+userTeam);
 
         iNextTeam++;
     }else if(tMessage[1]==='start'){

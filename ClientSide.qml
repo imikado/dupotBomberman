@@ -57,7 +57,7 @@ Item {
 
             main.oGame._urlWebsocket=serverUrl.text;
 
-            main.oGame.webSocketClient_send("test");
+            main.oGame.webSocketClient_send("connect");
 
             connect.start();
 
@@ -69,13 +69,18 @@ Item {
     }
     function connectGame1(){
 
-         btnConnect.visible=false;
-        main.oGame.webSocketClient_send("test");
 
-        connect2.start();
+        //main.oGame.webSocketClient_send("test");
+
+        //connect2.start();
     }
     function connectGame2(){
         main.oGame.webSocketClient_send("test");
+    }
+
+    function hideBoxClient(){
+        btnConnect.visible=false;
+
     }
 
     Timer{

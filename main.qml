@@ -18,6 +18,9 @@ Window {
     function showBoxUser(){
         stack.currentItem.showBoxUser();
     }
+    function hideBoxClient(){
+        stack.currentItem.hideBoxClient();
+    }
 
     function webSocketClient_message(message){
         console.log('receive QML webSocketClient_receive '+message);

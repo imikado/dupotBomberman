@@ -46,6 +46,7 @@ Item{
     }
 
     Bouton{
+        id:btnToServe
         x:main.oGame.convert(500)
         y: main.oGame.convert(26)
         _width: main.oGame.convert(60)
@@ -116,6 +117,7 @@ Item{
     function showBoxUser(){
         console.log("show box user");
         rectangleUser.visible=true;
+        btnToServe.visible=false;
     }
     function hideBoxUser(){
         rectangleUser.visible=false;
