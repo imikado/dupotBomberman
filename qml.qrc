@@ -9,6 +9,9 @@
         <file>btnUp.png</file>
         <file>bomb.png</file>
         <file>bombExplose.png</file>
+        <file>perso.png</file>
+        <file>wall.png</file>
+        <file>wallBreakable.png</file>
     </qresource>
     <qresource prefix="/js">
         <file>Game.js</file>
