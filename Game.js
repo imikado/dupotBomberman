@@ -36,7 +36,7 @@ var _oPageServerSide;
 
 
 function getTile(){
-    return 50;
+    return 720/13;
 }
 
 function getWidth(){
