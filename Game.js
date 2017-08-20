@@ -141,7 +141,7 @@ function buildGame(){
                 modelWall.append({x:x_,y:y_});
 
              }else if(tMap[y_][x_]===2){
-                modelWallBreakable.append({x:x_,y:y_});
+                modelWallBreakable.append({x:x_,y:y_,visible:true});
 
                 tWalkBreakable[x_+'_'+y_]=iWallBreakable;
                 iWallBreakable++;
@@ -176,7 +176,7 @@ function exploseBomb(x_,y_){
             var indexBreakable=tWalkBreakable[x_+'_'+y_];
 
             console.log('remove modelWallBrakable, index : '+indexBreakable);
-            modelWallBreakable.remove( indexBreakable  );
+            modelWallBreakable.get( indexBreakable  ).visible=false;
         }
 
     }else if(tMap[y_][x_]===0){
