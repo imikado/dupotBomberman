@@ -1,7 +1,7 @@
 #include "server.h"
 #include "QtWebSockets/QWebSocketServer"
 #include "QtWebSockets/QWebSocket"
-#include <QtCore/QDebug>
+#include <QtCore>
 
 QT_USE_NAMESPACE
 
@@ -9,7 +9,7 @@ Server::Server( QString port,bool bDebug, QObject * oQml_) : QWebSocketServer(QS
                                                              QWebSocketServer::NonSecureMode)
     {
     _oQml=oQml_;
-    qDebug()<<"constructeur";
+    //qDebug()<<"constructeur";
 
     connect(this, &QWebSocketServer::newConnection,
             this, &Server::onNewConnection);
@@ -25,14 +25,14 @@ Server::Server( QString port,bool bDebug, QObject * oQml_) : QWebSocketServer(QS
     if (listen(QHostAddress::Any, port.toInt()))
     {
 
-        qDebug() << "Chat Server listening (" << isListening() << ") on port" << serverUrl();
+        //qDebug() << "Chat Server listening (" << isListening() << ") on port" << serverUrl();
 
         //signal
         //showBoxUser
         QMetaObject::invokeMethod(_oQml, "showBoxUser");
 
     }else{
-        qDebug() << errorString();
+        //qDebug() << errorString();
     }
 }
 
@@ -67,7 +67,7 @@ void Server::onNewConnection()
 void Server::processMessage(QString message)
 {
 
-    qDebug( )<< "Server : receive msg:"<< message;
+    //qDebug( )<< "Server : receive msg:"<< message;
 
     QVariant returnedValue;
     QMetaObject::invokeMethod(_oQml, "webSocketServer_message",
@@ -100,21 +100,21 @@ void Server::processMessage(QString message)
 void Server::socketDisconnected()
 {
 
-    qDebug( )<< "disconnect" ;
+    //qDebug( )<< "disconnect" ;
 
 }
 
 void Server::onClose(){
-    qDebug() << "close" ;
+    //qDebug() << "close" ;
 }
 
 
 void Server::onError(QWebSocketProtocol::CloseCode error)
 {
-    qDebug() << error ;
+    //qDebug() << error ;
 }
 void Server::acceptError(QAbstractSocket::SocketError error)
 {
-    qDebug() << error ;
+    //qDebug() << error ;
 }
 

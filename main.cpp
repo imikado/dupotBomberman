@@ -86,22 +86,7 @@ int main(int argc, char *argv[])
 
 
 
-    /*
 
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QLatin1String("qrc:/main.qml")));
-
-
-    QObject *rootObject = engine.rootObjects().first();
-     QObject *qmlObject = rootObject->findChild<QObject*>("main");
-
-       // Step 2a: set or get the desired property value for the root object
-     rootObject->setProperty("lanIp", "to"+address.toString() );
-
-    //engine.rootContext()->setContextProperty("lanIp", "to"+address.toString() );
-
-    qDebug() <<"test "  << address.toString() ;
-*/
     return app.exec();
 }
 #include "main.moc"
