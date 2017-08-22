@@ -16,6 +16,8 @@ public:
     Server *oServer;
     Client *oClient;
 
+    bool bServer=false;
+
     QObject *oQml;
 
     void setQmlObject(QObject *oQml_){
@@ -24,10 +26,20 @@ public:
 
     Q_INVOKABLE void connectServer(QString port_){
         oServer=new Server(port_,true,oQml);
+        bServer=true;
     }
+    Q_INVOKABLE void disconnectServer(){
+        if(bServer){
+           oServer->disconnect();
+        }
+    }
+
 
     Q_INVOKABLE void connectClient(QString url_){
         oClient =new Client(url_,true,oQml);
+    }
+    Q_INVOKABLE void disconnectClient(){
+        oClient->disconnect();
     }
 
 

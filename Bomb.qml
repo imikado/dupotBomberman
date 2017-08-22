@@ -368,11 +368,18 @@ Repeater{
 
         function explose(){
 
+            if(!main.oGame.gameStarted || !model){
+                return;
+            }
+
+            var modelX=model.x;
+            var modelY=model.y;
+
             item.visible=false;
             itemExplose.visible=true;
             itemExploseSprite.restart();
 
-            main.oGame.exploseBomb(model.x,model.y);
+            main.oGame.exploseBomb(modelX,modelY);
 
             var i=0;
             var loopX=0;
@@ -381,8 +388,8 @@ Repeater{
 
             //left
             for(i=1;i<=2;i++){
-                loopX=model.x-i;
-                loopY=model.y;
+                loopX=modelX-i;
+                loopY=modelY;
                 loopSide='left';
 
                 if(main.oGame.tMap[loopY][loopX]===2 ){
@@ -399,8 +406,8 @@ Repeater{
 
             //right
             for(i=1;i<=2;i++){
-                loopX=model.x+i;
-                loopY=model.y;
+                loopX=modelX+i;
+                loopY=modelY;
                 loopSide='right';
 
                 if(main.oGame.tMap[loopY][loopX]===2 ){
@@ -418,8 +425,8 @@ Repeater{
 
             //up
             for(i=1;i<=2;i++){
-                loopX=model.x;
-                loopY=model.y-i;
+                loopX=modelX;
+                loopY=modelY-i;
                 loopSide='up';
 
                 if(main.oGame.tMap[loopY][loopX]===2 ){
@@ -436,8 +443,8 @@ Repeater{
 
             //down
             for(i=1;i<=2;i++){
-                loopX=model.x;
-                loopY=model.y+i;
+                loopX=modelX;
+                loopY=modelY+i;
                 loopSide='down';
 
                 if(main.oGame.tMap[loopY][loopX]===2 ){

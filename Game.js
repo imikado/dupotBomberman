@@ -8,6 +8,18 @@ var iNbUser=0;
 
 var gameStarted=false;
 
+var sTeam='';
+
+
+function init(){
+    iUserAlive=0;
+    iNbUser=0;
+    gameStarted=false;
+    iNextTeam=0;
+    sTeam="";
+    bConnected=false;
+}
+
 var tMap=Array();
 
 var tBall=Array();
@@ -100,9 +112,12 @@ function gotoScene(){
     buildGame();
 }
 function gotoGameover(){
-    gameStarted=0;
-    modelPerso.clear();
-    modelBomb.clear();
+    init();
+
+    main.disableServer();
+    main.webSocketDisconnectServer();
+
+
     main.launchPage('GameOver');
 }
 
@@ -189,6 +204,10 @@ function cycle(){
 }
 
 function exploseBomb(x_,y_){
+    if(!gameStarted){
+        return;
+    }
+
     if(tMap[y_][x_]===2){
         tMap[y_][x_]=0;
 
@@ -282,7 +301,6 @@ tTeamInverse['red']=1;
 tTeamInverse['green']=2;
 tTeamInverse['yellow']=3;
 
-var sTeam='';
 
 var tWebsocket=Array();
 var iWebsocket=0;

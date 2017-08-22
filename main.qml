@@ -120,6 +120,10 @@ Window {
 
     }
 
+    function disableServer(){
+        applicationData.disconnectServer();
+    }
+
     function enableServer(port_){
 
         applicationData.connectServer(port_);
@@ -136,6 +140,10 @@ Window {
 
         console.log('eanble server on port : '+port_);
 
+    }
+
+    function webSocketDisconnectServer(){
+        applicationData.disconnectClient();
     }
 
     function webSocketConnectServer(server_){
