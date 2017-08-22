@@ -29,7 +29,7 @@ Rectangle {
         Bouton{
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            anchors.verticalCenterOffset: 50
+            anchors.verticalCenterOffset: main.oGame.convert(150)
             _width: main.oGame.convert(292)
             _height: main.oGame.convert(60)
             _text: qsTr("Retour au menu")

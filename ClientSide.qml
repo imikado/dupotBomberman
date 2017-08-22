@@ -13,7 +13,7 @@ Item {
 
 
         color:"#ffffff"
-        width: main.oGame.convert(500)
+        width: main.oGame.convert(300)
         height: main.oGame.convert(40)
 
         TextEdit{
@@ -21,11 +21,52 @@ Item {
             y:main.oGame.convert(5)
             id:serverUrl
             text:main.oGame._urlWebsocket
-            width: main.oGame.convert(500)
+            width: main.oGame.convert(300)
             height: main.oGame.convert(40)
+            cursorVisible: true
+            focus: true
 
+            font.pixelSize: main.oGame.convert(22)
         }
+
+
     }
+    Text{
+        x:main.oGame.convert(410)
+        y:main.oGame.convert(55)
+        color:"#ffffff"
+
+        text:"Port"
+
+        font.pixelSize: main.oGame.convert(22)
+    }
+
+    Rectangle{
+        x:main.oGame.convert(500)
+        y:main.oGame.convert(50)
+        radius:main.oGame.convert(10)
+
+
+        color:"#ffffff"
+        width: main.oGame.convert(100)
+        height: main.oGame.convert(40)
+
+        TextEdit{
+            x:main.oGame.convert(10)
+            y:main.oGame.convert(5)
+            id:serverUrlPort
+            text:main.oGame._urlWebsocketPort
+            width: main.oGame.convert(100)
+            height: main.oGame.convert(40)
+            cursorVisible: true
+
+            font.pixelSize: main.oGame.convert(22)
+        }
+
+
+    }
+
+
 
     Rectangle{
         x:main.oGame.convert(40)

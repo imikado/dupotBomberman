@@ -6,7 +6,7 @@ Item{
     id:serverSide
 
     Rectangle{
-        x: main.oGame.convert(100)
+        x: main.oGame.convert(80)
         y: main.oGame.convert(26)
         width: main.oGame.convert(240)
         height: main.oGame.convert(40)
@@ -21,10 +21,20 @@ Item{
             height:  main.oGame.convert(40)
             width: main.oGame.convert(140)
             text: applicationData.getIp()
+
+            font.pixelSize: main.oGame.convert(22)
         }
     }
+    Text{
+        x:main.oGame.convert(345)
+        y: main.oGame.convert(31)
+        color:"#ffffff"
+        text:"Port:"
+        font.pixelSize: main.oGame.convert(22)
+    }
+
     Rectangle{
-        x: main.oGame.convert(355)
+        x: main.oGame.convert(415)
         y: main.oGame.convert(26)
         width: main.oGame.convert(140)
         height:  main.oGame.convert(40)
@@ -42,12 +52,14 @@ Item{
 
             text:"1100"
 
+            font.pixelSize: main.oGame.convert(22)
+
         }
     }
 
     Bouton{
         id:btnToServe
-        x:main.oGame.convert(500)
+        x:main.oGame.convert(530)
         y: main.oGame.convert(26)
         _width: main.oGame.convert(60)
         _height: main.oGame.convert(40)

@@ -3,6 +3,9 @@ function debug(text_){
     console.log(text_);
 }
 
+var iUserAlive=0;
+var iNbUser=0;
+
 var gameStarted=false;
 
 var tMap=Array();
@@ -12,7 +15,8 @@ var tBigBall=Array();
 
 var tDirection=Array('haut','bas','gauche','droite');
 
-var _urlWebsocket='ws://127.0.0.1:1100';
+var _urlWebsocket='ws://127.0.0.1';
+var _urlWebsocketPort='1100';
 //var _urlWebsocket='ws://localhost:1100';
 
 //var _urlWebsocket='ws://192.168.1.11:1100';
@@ -96,7 +100,9 @@ function gotoScene(){
     buildGame();
 }
 function gotoGameover(){
-
+    gameStarted=0;
+    modelPerso.clear();
+    modelBomb.clear();
     main.launchPage('GameOver');
 }
 
@@ -106,7 +112,10 @@ var tWalkBreakable=Array();
 
 function buildGame(){
 
-
+    modelWall.clear();
+    modelWallBreakable.clear();
+    modelBomb.clear();
+    modelPerso.clear();
 
     tMap=[
         [1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -152,10 +161,23 @@ function buildGame(){
         }
     }
     //'blue','red','green','yellow'
+
+    var tDetailUser=Array();
+    tDetailUser.push( {x:1,y:1,visible:true,img:"persoBlue"} );
+    tDetailUser.push( {x:11,y:1,visible:true,img:"persoRed"} );
+    tDetailUser.push( {x:1,y:15,visible:true,img:"persoGreen"} );
+    tDetailUser.push( {x:11,y:15,visible:true,img:"persoYellow"} );
+
+
+    for(var iUser=0;iUser<iNbUser;iUser++){
+        modelPerso.append(tDetailUser[iUser]);
+    }
+    /*
     modelPerso.append({x:1,y:1,visible:true,img:"persoBlue"});
     modelPerso.append({x:11,y:1,visible:true,img:"persoRed"});
     modelPerso.append({x:1,y:15,visible:true,img:"persoGreen"});
     modelPerso.append({x:11,y:15,visible:true,img:"persoYellow"});
+   */
 
     gameStarted=true;
 }
@@ -189,8 +211,13 @@ function exploseBomb(x_,y_){
             var oCheckPerso=modelPerso.get(i);
             console.log('check x,y :'+x_+' '+y_+' vs perso.x'+oCheckPerso.x+' perso.y'+oCheckPerso.y);
             if(oCheckPerso.x===x_ && oCheckPerso.y===y_){
-                console.log('perso find');
+                console.log('perso killed');
                 oCheckPerso.visible=false;
+                iUserAlive-=1;
+
+                if(iUserAlive<=1){
+                    gotoGameover();
+                }
             }
         }
 
@@ -273,7 +300,11 @@ function webSocketClient_receive(message_){
        stack.currentItem.webSocketAppendMessage( "Message: vous etes le User "+sTeam );
        return;
 
-   }else if(message_==='gotoScene'){
+   }else if(message_.substr(0,9)==='gotoScene'){
+
+       var tStart=message_.split(';');
+       iNbUser=tStart[1];
+
        gotoScene();
        return;
    }else{
@@ -305,7 +336,7 @@ var bConnected=false;
 function webSocketClient_send(message_){
 
     if(false===bConnected){
-        main.webSocketConnectServer(_urlWebsocket);
+        main.webSocketConnectServer(_urlWebsocket+":"+_urlWebsocketPort);
 
     }else{
         var iTeamToSend=tTeamInverse[sTeam];
@@ -338,9 +369,10 @@ function webSocketServer_receive(message_){
         stack.currentItem.webSocketAppendMessage("New User "+userTeam);
 
         iNextTeam++;
+
     }else if(tMessage[1]==='start'){
 
-        sAllReturn="gotoScene";
+        sAllReturn="gotoScene;"+iNextTeam;
 
 
     }else{
