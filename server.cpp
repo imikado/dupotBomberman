@@ -29,7 +29,7 @@ Server::Server( QString port,bool bDebug, QObject * oQml_) : QWebSocketServer(QS
 
         //signal
         //showBoxUser
-        QMetaObject::invokeMethod(_oQml, "showBoxUser");
+        QMetaObject::invokeMethod(_oQml, "serverIsConnected");
 
     }else{
         //qDebug() << errorString();

@@ -9,14 +9,14 @@ import "/js/Game.js" as Game
 Window {
     id:main
     objectName:"main"
-     visible: true
+    visible: true
 
     color:"#224422"
 
     property var oGame
 
-    function showBoxUser(){
-        stack.currentItem.showBoxUser();
+    function serverIsConnected(){
+        stack.currentItem.serverIsConnected();
     }
     function hideBoxClient(){
         stack.currentItem.hideBoxClient();

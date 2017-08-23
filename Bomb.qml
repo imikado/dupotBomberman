@@ -5,6 +5,9 @@ Repeater{
 
     Item{
 
+        property string attrActionExplose:model.actionExplose
+
+        onAttrActionExploseChanged:{ if(attrActionExplose==='true') explose(); }
 
         Rectangle{
             id:itemLeft1
@@ -309,17 +312,17 @@ Repeater{
         Timer{
             id:explose1
             interval: 4000
-            running:true
+            running:model.isTimerActive
             repeat: false
-            onTriggered:explose()
+            onTriggered:main.oGame.socketExplose(model.index)
         }
 
         Timer{
             id:explose2
             interval: 4500
-            running:true
+            running:model.isTimerActive
             repeat: false
-            onTriggered: main.oGame.removeBomb(model.index)
+            onTriggered: main.oGame.socketRemoveBomb(model.index)
         }
 
         function show(direction_,i_){
@@ -368,9 +371,8 @@ Repeater{
 
         function explose(){
 
-            if(!main.oGame.gameStarted || !model){
-                return;
-            }
+            console.log('explose');
+
 
             var modelX=model.x;
             var modelY=model.y;

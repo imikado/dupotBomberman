@@ -3,6 +3,8 @@ function debug(text_){
     console.log(text_);
 }
 
+var _isServer=false;
+
 var iUserAlive=0;
 var iNbUser=0;
 
@@ -10,15 +12,16 @@ var gameStarted=false;
 
 var sTeam='';
 
+function webSocketStartGame(){
+    webSocketClient_send("restart;"+iNbUser);
+}
+
 
 function init(){
     iUserAlive=0;
-    iNbUser=0;
     gameStarted=false;
-    iNextTeam=0;
-    sTeam="";
-    bConnected=false;
-}
+
+ }
 
 var tMap=Array();
 
@@ -114,8 +117,7 @@ function gotoScene(){
 function gotoGameover(){
     init();
 
-    main.disableServer();
-    main.webSocketDisconnectServer();
+
 
 
     main.launchPage('GameOver');
@@ -290,8 +292,32 @@ function clickBomb(){
 }
 
 function putBomb(x_,y_){
-    modelBomb.append({x:x_,y:y_});
+    modelBomb.append({x:x_,y:y_,isTimerActive:_isServer,actionExplose:'false'});
 }
+
+/*
+main.oGame.socketExplose(model.index)
+>>modelBomb.get(index)
+
+main.oGame.socketRemoveBomb(model.index)
+>>main.oGame.removeBomb(model.index)
+*/
+function exploseBombIndex(index_){
+
+    modelBomb.get(index_).actionExplose='true';
+
+}
+
+function socketExplose(index_){
+    webSocketClient_send("exploseBombIndex;"+index_);
+    //exploseBomb(index_);
+
+}
+function socketRemoveBomb(index_){
+    webSocketClient_send("removeBomb;"+index_);
+    //removeBomb(index_);
+}
+
 
 
 var tTeam=Array('blue','red','green','yellow');
@@ -325,12 +351,19 @@ function webSocketClient_receive(message_){
 
        gotoScene();
        return;
+
    }else{
        var tMessage=message_.split(':');
        var iTeamSocket=tTeamInverse[tMessage[0] ];
        var oPersoSocket=modelPerso.get(tTeamInverse[tMessage[0] ] );
 
-       if(tMessage[1]==='gotoUp' && iCanWalkDirection(oPersoSocket,'up') ){
+       if(tMessage[1].substr(0,7)==='restart'){
+           var tStart=tMessage[1].split(';');
+           iNbUser=tStart[1];
+
+           gotoScene();
+           return;
+       }else if(tMessage[1]==='gotoUp' && iCanWalkDirection(oPersoSocket,'up') ){
            oPersoSocket.y-=1;
        }else if(tMessage[1]==='gotoDown' && iCanWalkDirection(oPersoSocket,'down') ){
            oPersoSocket.y+=1;
@@ -341,7 +374,14 @@ function webSocketClient_receive(message_){
        }else if(tMessage[1]==='putBomb'){
            putBomb(oPersoSocket.x,oPersoSocket.y);
 
+       }else if(tMessage[1].substr(0,16)==='exploseBombIndex'){
+           exploseBombIndex(tMessage[1].substr(17) );
+       }else if(tMessage[1].substr(0,10)==='removeBomb'){
+           removeBomb(tMessage[1].substr(11) );
        }
+
+
+
    }
 
    //message_+="\n";

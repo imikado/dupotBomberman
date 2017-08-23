@@ -145,10 +145,12 @@ Item{
         btnLaunchGame.visible=true;
     }
 
-    function showBoxUser(){
+    function serverIsConnected(){
         console.log("show box user");
         rectangleUser.visible=true;
         btnToServe.visible=false;
+
+        main.oGame._isServer=true;
     }
     function hideBoxUser(){
         rectangleUser.visible=false;

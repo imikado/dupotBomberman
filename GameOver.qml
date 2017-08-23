@@ -32,11 +32,20 @@ Rectangle {
            // anchors.verticalCenterOffset: main.oGame.convert(150)
             _width: main.oGame.convert(292)
             _height: main.oGame.convert(60)
-            _text: qsTr("Retour au menu")
-            _link:main.oGame.gotoMenu
+            _text: qsTr("Rejouer")
+            _link:main.oGame.webSocketStartGame
+
+            visible:main.oGame._isServer
         }
 
 
+
+    }
+
+    function hideBoxClient(){
+
+    }
+    function webSocketAppendMessage(){
 
     }
 }
