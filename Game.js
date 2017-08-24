@@ -16,6 +16,8 @@ function webSocketStartGame(){
     webSocketClient_send("restart;"+iNbUser);
 }
 
+var tBombTeam=Array();
+
 
 function init(){
     iUserAlive=0;
@@ -246,6 +248,9 @@ function exploseBomb(x_,y_){
 }
 function removeBomb(index_){
     console.log('removeBomb : '+index_);
+    if(sTeam===modelBomb.get(index_).team){
+        _oPageScene.enableBombBtn();
+    }
     modelBomb.remove(index_);
 }
 
@@ -291,8 +296,11 @@ function clickBomb(){
     webSocketClient_send('putBomb');
 }
 
-function putBomb(x_,y_){
-    modelBomb.append({x:x_,y:y_,isTimerActive:_isServer,actionExplose:'false'});
+function putBomb(x_,y_,team_){
+    modelBomb.append({x:x_,y:y_,isTimerActive:_isServer,actionExplose:'false',team:team_});
+    if(sTeam===team_){
+        _oPageScene.disableBombBtn();
+    }
 }
 
 /*
@@ -372,7 +380,7 @@ function webSocketClient_receive(message_){
        }else if(tMessage[1]==='gotoRight' && iCanWalkDirection(oPersoSocket,'right') ){
            oPersoSocket.x+=1;
        }else if(tMessage[1]==='putBomb'){
-           putBomb(oPersoSocket.x,oPersoSocket.y);
+           putBomb(oPersoSocket.x,oPersoSocket.y,tMessage[0]);
 
        }else if(tMessage[1].substr(0,16)==='exploseBombIndex'){
            exploseBombIndex(tMessage[1].substr(17) );

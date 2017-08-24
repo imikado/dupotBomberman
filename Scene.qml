@@ -22,6 +22,7 @@ Rectangle{
     Perso{}
 
     Center{
+        id:btnBomb
         anchors.bottom: parent.bottom
         anchors.bottomMargin: main.oGame.convert( 50)
 
@@ -61,6 +62,13 @@ Rectangle{
 
     function webSocketAppendMessage(text_){
         //textlog.text+=text_;
+    }
+
+    function disableBombBtn(){
+        btnBomb.disable();
+    }
+    function enableBombBtn(){
+        btnBomb.enable();
     }
 }
 

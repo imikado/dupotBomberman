@@ -14,6 +14,7 @@ Item{
         height:main.oGame.convert(90)
         radius: main.oGame.convert(20)
 
+
         /*
         Image{
             source: "/images/btnUp.png"
@@ -26,11 +27,6 @@ Item{
         */
 
         AnimatedSprite {
-
-
-
-
-
 
             width:main.oGame.convert( 50)
             height:main.oGame.convert( 50)
@@ -46,6 +42,7 @@ Item{
         }
 
         MouseArea{
+            id:mousea
             anchors.fill: parent
             onPressed:clickBtnBomb();
 
@@ -53,13 +50,7 @@ Item{
 
 
 
-        SequentialAnimation on color {
-            loops: 1
-            id:rect1Anim;
-            running:false;
-            ColorAnimation { from: "#131564"; to: "#991600"; duration: 200 }
-            ColorAnimation { from: "#991600"; to: "#131564"; duration: 500 }
-        }
+
     }
 
 
@@ -67,9 +58,16 @@ Item{
     function clickBtnBomb(){
         main.oGame.clickBomb();
 
-        rect1Anim.start();
     }
 
+    function disable(){
+        mousea.enabled=false;
+        rect1.opacity=0.5;
+    }
+    function enable(){
+        mousea.enabled=true;
+        rect1.opacity=1;
+    }
 
 
 }
