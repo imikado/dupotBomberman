@@ -1,9 +1,7 @@
-
-function debug(text_){
-    console.log(text_);
-}
-
 var _isServer=false;
+var _urlWebsocket='ws://127.0.0.1';
+var _urlWebsocketPort='1100';
+
 
 var iUserAlive=0;
 var iNbUser=0;
@@ -12,31 +10,9 @@ var gameStarted=false;
 
 var sTeam='';
 
-function webSocketStartGame(){
-    webSocketClient_send("restart;"+iNbUser);
-}
-
-var tBombTeam=Array();
-
-
-function init(){
-    iUserAlive=0;
-    gameStarted=false;
-
- }
 
 var tMap=Array();
 
-var tBall=Array();
-var tBigBall=Array();
-
-var tDirection=Array('haut','bas','gauche','droite');
-
-var _urlWebsocket='ws://127.0.0.1';
-var _urlWebsocketPort='1100';
-//var _urlWebsocket='ws://localhost:1100';
-
-//var _urlWebsocket='ws://192.168.1.11:1100';
 
 //dimensions réelles de l'écran
 var _width;
@@ -49,10 +25,44 @@ var _virtualHeight=960;
 //ratio permettant d’adapter à la résolution de l'écran
 var _iRatio;
 
-var _iScore=0;
-
 var _oPageScene;
 var _oPageServerSide;
+
+//jeu
+var tWalkBreakable=Array();
+
+
+var tTeam=Array('blue','red','green','yellow');
+var tTeamInverse=Array();
+tTeamInverse['blue']=0;
+tTeamInverse['red']=1;
+tTeamInverse['green']=2;
+tTeamInverse['yellow']=3;
+
+var iNextTeam=0;
+
+var bConnected=false;
+
+
+
+
+function debug(text_){
+    console.log(text_);
+}
+
+
+
+
+
+
+
+function init(){
+    iUserAlive=0;
+    gameStarted=false;
+
+}
+
+
 
 
 
@@ -95,17 +105,18 @@ function convert(size_){
     return size_*_iRatio;
 }
 
-//fonctions de navigations
+
+
+
+//---fonctions de navigations
 function gotoSplashscreen(){
     main.launchPage('Splashscreen');
 }
 function gotoMenu(){
     main.launchPage('Menu');
 }
-
 function gotoServerSide(){
     _oPageServerSide=main.launchPage('ServerSide');
-    //main.enableServer();
 }
 function gotoClientSide(){
     _oPageServerSide=main.launchPage('ClientSide');
@@ -119,15 +130,10 @@ function gotoScene(){
 function gotoGameover(){
     init();
 
-
-
-
     main.launchPage('GameOver');
 }
 
 
-//jeu
-var tWalkBreakable=Array();
 
 function buildGame(){
 
@@ -191,22 +197,12 @@ function buildGame(){
     for(var iUser=0;iUser<iNbUser;iUser++){
         modelPerso.append(tDetailUser[iUser]);
     }
-    /*
-    modelPerso.append({x:1,y:1,visible:true,img:"persoBlue"});
-    modelPerso.append({x:11,y:1,visible:true,img:"persoRed"});
-    modelPerso.append({x:1,y:15,visible:true,img:"persoGreen"});
-    modelPerso.append({x:11,y:15,visible:true,img:"persoYellow"});
-   */
 
     gameStarted=true;
 }
 
 
-function cycle(){
-
-
-}
-
+//---bomb
 function exploseBomb(x_,y_){
     if(!gameStarted){
         return;
@@ -253,16 +249,26 @@ function removeBomb(index_){
     }
     modelBomb.remove(index_);
 }
+function putBomb(x_,y_,team_){
+    modelBomb.append({x:x_,y:y_,isTimerActive:_isServer,actionExplose:'false',team:team_});
+    if(sTeam===team_){
+        _oPageScene.disableBombBtn();
+    }
+}
+function exploseBombIndex(index_){
+
+    modelBomb.get(index_).actionExplose='true';
+
+}
 
 
-
+//---map
 function iCanWalk(x_,y_){
     if(tMap[y_][x_]===0 || tMap[y_][x_]===4){
         return true;
     }
     return false;
 }
-
 function iCanWalkDirection(oObject_,direction_){
     if(direction_==='up' && iCanWalk(oObject_.x,oObject_.y-1) ){
         return true;
@@ -277,6 +283,24 @@ function iCanWalkDirection(oObject_,direction_){
 }
 
 
+
+
+
+//---socket
+function socketExplose(index_){
+    webSocketClient_send("exploseBombIndex;"+index_);
+
+}
+function socketRemoveBomb(index_){
+    webSocketClient_send("removeBomb;"+index_);
+}
+function webSocketStartGame(){
+    webSocketClient_send("restart;"+iNbUser);
+}
+
+
+
+//---gamepad
 function clickUp(){
     webSocketClient_send('gotoUp');
 }
@@ -296,50 +320,6 @@ function clickBomb(){
     webSocketClient_send('putBomb');
 }
 
-function putBomb(x_,y_,team_){
-    modelBomb.append({x:x_,y:y_,isTimerActive:_isServer,actionExplose:'false',team:team_});
-    if(sTeam===team_){
-        _oPageScene.disableBombBtn();
-    }
-}
-
-/*
-main.oGame.socketExplose(model.index)
->>modelBomb.get(index)
-
-main.oGame.socketRemoveBomb(model.index)
->>main.oGame.removeBomb(model.index)
-*/
-function exploseBombIndex(index_){
-
-    modelBomb.get(index_).actionExplose='true';
-
-}
-
-function socketExplose(index_){
-    webSocketClient_send("exploseBombIndex;"+index_);
-    //exploseBomb(index_);
-
-}
-function socketRemoveBomb(index_){
-    webSocketClient_send("removeBomb;"+index_);
-    //removeBomb(index_);
-}
-
-
-
-var tTeam=Array('blue','red','green','yellow');
-var tTeamInverse=Array();
-tTeamInverse['blue']=0;
-tTeamInverse['red']=1;
-tTeamInverse['green']=2;
-tTeamInverse['yellow']=3;
-
-
-var tWebsocket=Array();
-var iWebsocket=0;
-
-var iNextTeam=0;
 
 //---websocket
 //client
@@ -391,14 +371,7 @@ function webSocketClient_receive(message_){
 
 
    }
-
-   //message_+="\n";
-   //stack.currentItem.webSocketAppendMessage( qsTr("Client received message: %1").arg((message_)) );
-
-
-
 }
-var bConnected=false;
 function webSocketClient_send(message_){
 
     if(false===bConnected){
@@ -450,44 +423,6 @@ function webSocketServer_receive(message_){
     }
 
     return sUserReturn+'###'+sAllReturn;
-
-}
-
-
-function OFFwebSocketServer_receive(message_,websocket_){
-
-    var tMessage=message_.split(':');
-    if(tMessage[0]===''){
-
-        var userTeam=tTeam[ iNextTeam ];
-
-        websocket_.sendTextMessage('setTeam:'+userTeam);
-
-        if(!tWebsocket[iNextTeam] ){
-            tWebsocket[iNextTeam]=websocket_;
-        }
-
-        iNextTeam++;
-    }else if(tMessage[1]==='start'){
-
-        for(var i in tWebsocket){
-            tWebsocket[i].sendTextMessage("gotoScene");
-        }
-
-    }else{
-        //message_+="\n";
-
-        stack.currentItem.webSocketAppendMessage(qsTr("Server received message: %1").arg(message_));
-
-        //websocket_.sendTextMessage('qsTr("Hello Client!")'ok);
-
-        for(var i in tWebsocket){
-            tWebsocket[i].sendTextMessage(message_);
-        }
-
-    }
-
-
 
 }
 
