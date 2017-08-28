@@ -6,7 +6,7 @@ import "qrc:/items"
 
 Rectangle {
     visible:true
-    color: "#5f0f0f"
+    color: "#3a3a3a"
     width:main.oGame.getWidth()
     height:main.oGame.getHeight()
 

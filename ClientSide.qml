@@ -16,7 +16,7 @@ Item {
         width: main.oGame.convert(300)
         height: main.oGame.convert(40)
 
-        TextEdit{
+        TextInput{
             x:main.oGame.convert(10)
             y:main.oGame.convert(5)
             id:serverUrl
@@ -27,7 +27,11 @@ Item {
             focus: true
 
             font.pixelSize: main.oGame.convert(22)
+
+
         }
+
+
 
 
     }
@@ -51,7 +55,7 @@ Item {
         width: main.oGame.convert(100)
         height: main.oGame.convert(40)
 
-        TextEdit{
+        TextInput{
             x:main.oGame.convert(10)
             y:main.oGame.convert(5)
             id:serverUrlPort

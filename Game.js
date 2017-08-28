@@ -53,7 +53,9 @@ function debug(text_){
 
 
 
-
+function getGameHeight(){
+    return convert(  getTile()*17 );
+}
 
 
 function init(){
@@ -131,6 +133,9 @@ function gotoGameover(){
     init();
 
     main.launchPage('GameOver');
+}
+function gotoHelp(){
+    main.launchPage('Help');
 }
 
 

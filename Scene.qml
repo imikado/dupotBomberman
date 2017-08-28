@@ -21,27 +21,37 @@ Rectangle{
 
     Perso{}
 
+
+
+    Joystick{
+        x:0
+        y:0
+        width:parent.width
+        height:main.oGame.getGameHeight()
+
+    }
+
     Center{
         id:btnBomb
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: main.oGame.convert( 50)
-
-        x:main.oGame.convert( 250)
+        y:main.oGame.getGameHeight()+main.oGame.convert(20)
+        anchors.right: parent.right
 
 
     }
 
+    /*
     Left{
         anchors.bottom: parent.bottom
         anchors.bottomMargin: main.oGame.convert( 50)
     }
+
 
     Right{
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         anchors.bottomMargin: main.oGame.convert( 50)
     }
-
+    */
 
     Timer{
         id:timeGameOver

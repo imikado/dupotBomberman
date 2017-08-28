@@ -3,28 +3,17 @@ import QtQuick 2.0
 Item{
 
 
-    width:main.oGame.convert(180)
-    height:main.oGame.convert(180)
+    width:main.oGame.convert(260)
+    height:main.oGame.convert(90)
 
 
     Rectangle{
         id:rect1
         color:"#3f1364"
-        width:main.oGame.convert(180)
-        height:main.oGame.convert(90)
+        width:parent.width
+        height:parent.height
         radius: main.oGame.convert(20)
 
-
-        /*
-        Image{
-            source: "/images/btnUp.png"
-
-            width:parent.width- main.oGame.convert(40)
-            height: parent.height- main.oGame.convert(40)
-            anchors.horizontalCenter: parent.horizontalCenter;
-            anchors.verticalCenter:  parent.verticalCenter;
-        }
-        */
 
         AnimatedSprite {
 

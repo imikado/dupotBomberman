@@ -19,6 +19,7 @@
         <file>pageGameOver.png</file>
         <file>pageLogoMobileDupot.jpg</file>
         <file>pageStartGame.png</file>
+        <file>helpMove.png</file>
     </qresource>
     <qresource prefix="/js">
         <file>Game.js</file>
@@ -30,6 +31,7 @@
         <file>Splashscreen.qml</file>
         <file>ServerSide.qml</file>
         <file>ClientSide.qml</file>
+        <file>Help.qml</file>
     </qresource>
     <qresource prefix="/items">
         <file>Bouton.qml</file>
@@ -40,5 +42,6 @@
         <file>WallBreakable.qml</file>
         <file>Center.qml</file>
         <file>Bomb.qml</file>
+        <file>Joystick.qml</file>
     </qresource>
 </RCC>

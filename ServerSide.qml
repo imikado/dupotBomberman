@@ -7,37 +7,37 @@ Item{
 
     Rectangle{
         x: main.oGame.convert(80)
-        y: main.oGame.convert(26)
-        width: main.oGame.convert(240)
-        height: main.oGame.convert(40)
+        y: main.oGame.convert(56)
+        width: main.oGame.convert(280)
+        height: main.oGame.convert(60)
         color:"#cccccc"
         radius:main.oGame.convert(5)
 
 
         Text{
             x:main.oGame.convert(10)
-            y:main.oGame.convert(5)
+            y:main.oGame.convert(10)
 
-            height:  main.oGame.convert(40)
+            height:  main.oGame.convert(60)
             width: main.oGame.convert(140)
             text: applicationData.getIp()
 
-            font.pixelSize: main.oGame.convert(22)
+            font.pixelSize: main.oGame.convert(32)
         }
     }
     Text{
-        x:main.oGame.convert(345)
-        y: main.oGame.convert(31)
+        x:main.oGame.convert(375)
+        y: main.oGame.convert(71)
         color:"#ffffff"
         text:"Port:"
-        font.pixelSize: main.oGame.convert(22)
+        font.pixelSize: main.oGame.convert(32)
     }
 
     Rectangle{
-        x: main.oGame.convert(415)
-        y: main.oGame.convert(26)
+        x: main.oGame.convert(465)
+        y: main.oGame.convert(56)
         width: main.oGame.convert(140)
-        height:  main.oGame.convert(40)
+        height:  main.oGame.convert(60)
 
         color:"#ffffff"
         radius:main.oGame.convert(5)
@@ -45,25 +45,25 @@ Item{
         TextInput{
             id:port
             x:main.oGame.convert(10)
-            y:main.oGame.convert(5)
+            y:main.oGame.convert(10)
 
             width: main.oGame.convert(100)
-            height:  main.oGame.convert(40)
+            height:  main.oGame.convert(60)
 
             text:"1100"
 
-            font.pixelSize: main.oGame.convert(22)
+            font.pixelSize: main.oGame.convert(32)
 
         }
     }
 
     Bouton{
         id:btnToServe
-        x:main.oGame.convert(530)
-        y: main.oGame.convert(26)
-        _width: main.oGame.convert(60)
-        _height: main.oGame.convert(40)
-        _text: qsTr("Go!")
+        x: main.oGame.convert(80)
+        y: main.oGame.convert(136)
+        _width: main.oGame.convert(530)
+        _height: main.oGame.convert(60)
+        _text: qsTr("Ecouter sur ce port !")
         _link:function(){main.enableServer(port.text)}
     }
 
@@ -72,7 +72,7 @@ Item{
     Rectangle {
         id: rectangleUser
         x: main.oGame.convert(40)
-        y: main.oGame.convert(118)
+        y: main.oGame.convert(138)
         radius:main.oGame.convert(5)
         width: main.oGame.convert(640)
         height: main.oGame.convert(300)

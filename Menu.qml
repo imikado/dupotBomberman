@@ -44,6 +44,20 @@ Rectangle {
         _link:main.oGame.gotoClientSide
     }
 
+    Bouton{
+        anchors.verticalCenterOffset: main.oGame.convert(300)
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+
+        _width: main.oGame.convert(380)
+        _height: main.oGame.convert(60)
+        _text: qsTr("Aide")
+        _link:main.oGame.gotoHelp
+    }
+
+
+
 
 
 }

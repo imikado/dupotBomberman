@@ -90,8 +90,6 @@ int main(int argc, char *argv[]){
 
     data.setQmlObject( rootObjt[0] );
 
-
-
     return app.exec();
 }
 #include "main.moc"
