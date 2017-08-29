@@ -30,6 +30,7 @@ var _oPageServerSide;
 
 //jeu
 var tWalkBreakable=Array();
+var tBombInstalled=Array();
 
 
 var tTeam=Array('blue','red','green','yellow');
@@ -252,10 +253,12 @@ function removeBomb(index_){
     if(sTeam===modelBomb.get(index_).team){
         _oPageScene.enableBombBtn();
     }
+    tBombInstalled[modelBomb.get(index_).x+"_"+modelBomb.get(index_).y]=-1;
     modelBomb.remove(index_);
 }
 function putBomb(x_,y_,team_){
     modelBomb.append({x:x_,y:y_,isTimerActive:_isServer,actionExplose:'false',team:team_});
+    tBombInstalled[x_+"_"+y_]=1;
     if(sTeam===team_){
         _oPageScene.disableBombBtn();
     }
@@ -269,7 +272,9 @@ function exploseBombIndex(index_){
 
 //---map
 function iCanWalk(x_,y_){
-    if(tMap[y_][x_]===0 || tMap[y_][x_]===4){
+    if(tBombInstalled[x_+"_"+y_]>-1 ){
+        return false;
+    }else if(tMap[y_][x_]===0 || tMap[y_][x_]===4){
         return true;
     }
     return false;

@@ -27,7 +27,7 @@ Rectangle{
         x:0
         y:0
         width:parent.width
-        height:main.oGame.getGameHeight()
+        height:parent.height
 
     }
 
