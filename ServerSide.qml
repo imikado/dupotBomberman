@@ -64,7 +64,7 @@ Item{
         _width: main.oGame.convert(530)
         _height: main.oGame.convert(60)
         _text: qsTr("Ecouter sur ce port !")
-        _link:function(){main.enableServer(port.text)}
+        _link:function(){applicationData.connectServer(port.text)}
     }
 
 
@@ -146,7 +146,6 @@ Item{
     }
 
     function serverIsConnected(){
-        console.log("show box user");
         rectangleUser.visible=true;
         btnToServe.visible=false;
 

@@ -10,6 +10,9 @@ Server::Server( QString port,bool bDebug, QObject * oQml_) : QWebSocketServer(QS
     _oQml=oQml_;
     //qDebug()<<"constructeur";
 
+    _Team=new QStringList('blue','red','green','yellow');
+
+
     connect(this, &QWebSocketServer::newConnection,
             this, &Server::onNewConnection);
 
@@ -58,14 +61,49 @@ void Server::onNewConnection(){
     m_clients << pSocket;
 }
 
-void Server::processMessage(QString message)
+void Server::processMessage(QString message_)
 {
-    QVariant returnedValue;
-    QMetaObject::invokeMethod(_oQml, "webSocketServer_message",
-             Q_RETURN_ARG(QVariant, returnedValue),
-            Q_ARG(QVariant, message));
+    /*
+    var tMessage=message_.split(':');
+    if(tMessage[0]===''){
 
-    QString sReturn= returnedValue.toString();
+        var userTeam=_tTeam[ _iNextTeam ];
+
+        sUserReturn='setTeam:'+userTeam;
+
+        stack.currentItem.webSocketAppendMessage("New User "+userTeam);
+
+        _iNextTeam++;
+
+    }else if(tMessage[1]==='start'){
+
+        sAllReturn="gotoScene;"+_iNextTeam;
+
+
+    }else{
+
+        stack.currentItem.webSocketAppendMessage(qsTr("Server received message: %1").arg(message_));
+
+        sAllReturn=message_;
+
+    }
+    */
+
+    QStringList tMessage=message_.split(':');
+    if(tMessage[0]==''){
+        string userTeam=_tTeam[ _iNextTeam ];
+
+        sUserReturn='setTeam:'+userTeam;
+    }else if(tMessage[1]=='start'){
+
+    }else{
+
+    }
+
+
+
+
+
 
     QStringList tReturn=sReturn.split("###");
 

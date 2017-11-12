@@ -25,6 +25,9 @@ public:
 
      QObject * _oQml;
 
+     QStringList _tTeam;
+     int _iNextTeam;
+
 protected slots:
     void onNewConnection();
     void processMessage(QString message);

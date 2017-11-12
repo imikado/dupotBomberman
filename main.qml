@@ -30,11 +30,10 @@ Window {
         return main.oGame.webSocketServer_receive(message);
     }
 
-
+    /*
     function disableServer(){
         applicationData.disconnectServer();
     }
-
     function enableServer(port_){
         applicationData.connectServer(port_);
     }
@@ -49,6 +48,7 @@ Window {
     function webSocketSendText(text_){
         applicationData.sendMessage(text_);
     }
+    */
 
     contentOrientation :Qt.PortraitOrientation
 
@@ -87,8 +87,8 @@ Window {
 
         console.log('mon ip'+applicationData.getIp());
         this.oGame=Game;
-        oGame.start(Screen.width,Screen.height);
-        //this.oGame.start(400,650);
+        //oGame.start(Screen.width,Screen.height);
+        this.oGame.start(400,650);
 
     }
 
