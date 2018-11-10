@@ -30,10 +30,11 @@ Window {
         return main.oGame.webSocketServer_receive(message);
     }
 
-    /*
+
     function disableServer(){
         applicationData.disconnectServer();
     }
+
     function enableServer(port_){
         applicationData.connectServer(port_);
     }
@@ -48,7 +49,6 @@ Window {
     function webSocketSendText(text_){
         applicationData.sendMessage(text_);
     }
-    */
 
     contentOrientation :Qt.PortraitOrientation
 

@@ -322,7 +322,7 @@ Repeater{
             interval: 4500
             running:model.isTimerActive
             repeat: false
-            onTriggered: main.oGame.socketRemoveBomb(model.x,model.y)
+            onTriggered: main.oGame.socketRemoveBomb(model.index)
         }
 
         function show(direction_,i_){
@@ -388,45 +388,78 @@ Repeater{
             var loopY=0;
             var loopSide='';
 
-            var tDirection=Array('left','right','up','down');
+            //left
+            for(i=1;i<=2;i++){
+                loopX=modelX-i;
+                loopY=modelY;
+                loopSide='left';
 
-            for(var iDirection in tDirection){
+                if(main.oGame.tMap[loopY][loopX]===2 ){
+                    show(loopSide,i);
+                    main.oGame.exploseBomb(loopX,loopY);
+                    break;
+                }else if(main.oGame.tMap[loopY][loopX]===0 ){
+                    show(loopSide,i);
+                    main.oGame.exploseBomb(loopX,loopY);
+                }else{
+                    break;
+                }
+            }
 
-                var sDirection=tDirection[iDirection];
+            //right
+            for(i=1;i<=2;i++){
+                loopX=modelX+i;
+                loopY=modelY;
+                loopSide='right';
 
-                //left
-                for(i=1;i<=2;i++){
-
-                    if(sDirection==='left'){
-                        loopX=modelX-i;
-                        loopY=modelY;
-                    }else if(sDirection==='right'){
-                        loopX=modelX+i;
-                        loopY=modelY;
-                    }else if(sDirection==='up'){
-                        loopX=modelX;
-                        loopY=modelY-i;
-                    }else if(sDirection==='down'){
-                        loopX=modelX;
-                        loopY=modelY+i;
-                    }
-
-                    loopSide=sDirection;
-
-                    if(main.oGame._oMap.isWallBreakable(loopY,loopX) ){
-                        show(loopSide,i);
-                        main.oGame.exploseBomb(loopX,loopY);
-                        break;
-                    }else if(main.oGame._oMap.isEmpty(loopY,loopX) ){
-                        show(loopSide,i);
-                        main.oGame.exploseBomb(loopX,loopY);
-                    }else{
-                        break;
-                    }
+                if(main.oGame.tMap[loopY][loopX]===2 ){
+                    show(loopSide,i);
+                    main.oGame.exploseBomb(loopX,loopY);
+                    break;
+                }else if(main.oGame.tMap[loopY][loopX]===0 ){
+                    show(loopSide,i);
+                    main.oGame.exploseBomb(loopX,loopY);
+                }else{
+                    break;
                 }
             }
 
 
+            //up
+            for(i=1;i<=2;i++){
+                loopX=modelX;
+                loopY=modelY-i;
+                loopSide='up';
+
+                if(main.oGame.tMap[loopY][loopX]===2 ){
+                    show(loopSide,i);
+                    main.oGame.exploseBomb(loopX,loopY);
+                    break;
+                }else if(main.oGame.tMap[loopY][loopX]===0 ){
+                    show(loopSide,i);
+                    main.oGame.exploseBomb(loopX,loopY);
+                }else{
+                    break;
+                }
+            }
+
+            //down
+            for(i=1;i<=2;i++){
+                loopX=modelX;
+                loopY=modelY+i;
+                loopSide='down';
+
+                if(main.oGame.tMap[loopY][loopX]===2 ){
+                    show(loopSide,i);
+                    main.oGame.exploseBomb(loopX,loopY);
+                    break;
+                }else if(main.oGame.tMap[loopY][loopX]===0 ){
+                    show(loopSide,i);
+                    main.oGame.exploseBomb(loopX,loopY);
+                }else{
+                    break;
+                }
+            }
 
 
 

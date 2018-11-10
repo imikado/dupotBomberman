@@ -1,12 +1,17 @@
-//websocket
 var _isServer=false;
 var _urlWebsocket='ws://127.0.0.1';
 var _urlWebsocketPort='1100';
-var _bConnected=false;
 
 
-var _iUserAlive=0;
-var _iNbUser=0;
+var iUserAlive=0;
+var iNbUser=0;
+
+var gameStarted=false;
+
+var sTeam='';
+
+
+var tMap=Array();
 
 
 //dimensions réelles de l'écran
@@ -16,25 +21,30 @@ var _height;
 //dimensions de base de notre jeu
 var _virtualWidth=720;
 var _virtualHeight=960;
+
 //ratio permettant d’adapter à la résolution de l'écran
 var _iRatio;
 
-//pages
 var _oPageScene;
 var _oPageServerSide;
 
 //jeu
-var _gameStarted=false;
-var _oMap=Array();
+var tWalkBreakable=Array();
+var tBombInstalled=Array();
 
-var _tTeam=Array('blue','red','green','yellow');
-var _tTeamInverse=Array();
-_tTeamInverse['blue']=0;
-_tTeamInverse['red']=1;
-_tTeamInverse['green']=2;
-_tTeamInverse['yellow']=3;
-var _iNextTeam=0;
-var _sTeam='';
+
+var tTeam=Array('blue','red','green','yellow');
+var tTeamInverse=Array();
+tTeamInverse['blue']=0;
+tTeamInverse['red']=1;
+tTeamInverse['green']=2;
+tTeamInverse['yellow']=3;
+
+var iNextTeam=0;
+
+var bConnected=false;
+
+
 
 
 function debug(text_){
@@ -44,13 +54,33 @@ function debug(text_){
 
 
 
+function getGameHeight(){
+    return convert(  getTile()*17 );
+}
 
-//fonctions de démarrage du jeu
+
 function init(){
-    _iUserAlive=0;
-    _gameStarted=false;
+    iUserAlive=0;
+    gameStarted=false;
 
 }
+
+
+
+
+
+function getTile(){
+    return 720/13;
+}
+
+function getWidth(){
+    return _width;
+}
+function getHeight(){
+    return _height;
+}
+
+//fonction de démarrage du jeu
 function start(width_,height_){
 
     if(width_> height_){
@@ -73,19 +103,6 @@ function start(width_,height_){
     gotoSplashscreen();
 }
 
-
-function getTile(){
-    return 720/13;
-}
-function getGameHeight(){
-    return convert(getTile()*17);
-}
-function getWidth(){
-    return _width;
-}
-function getHeight(){
-    return _height;
-}
 //converti une dimension a la taille de l'écran
 function convert(size_){
     return size_*_iRatio;
@@ -131,30 +148,50 @@ function buildGame(){
     modelBomb.clear();
     modelPerso.clear();
 
+    tMap=[
+        [1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,2,0,2,0,0,0,0,1],
+        [1,0,1,2,1,2,1,0,1,0,1,0,1],
+        [1,2,2,0,0,0,2,2,0,2,2,0,1],
+        [1,2,1,2,1,0,1,0,1,0,1,2,1],
+        [1,0,0,0,2,0,2,0,0,0,0,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,0,2,0,0,0,0,0,2,0,2,1],
+        [1,2,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,2,0,2,0,2,0,2,2,2,0,1],
+        [1,0,1,2,1,0,1,0,1,0,1,2,1],
+        [1,0,2,2,0,0,0,2,0,0,0,2,1],
+        [1,2,1,0,1,0,1,0,1,2,1,2,1],
+        [1,0,0,2,0,2,0,2,2,0,0,0,1],
+        [1,0,1,0,1,0,1,2,1,2,1,0,1],
+        [1,0,0,2,0,0,2,0,0,2,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1],
 
+        ];
 
-    _oMap=new Map();
-    _oMap.build( [
-                    [1,1,1,1,1,1,1,1,1,1,1,1,1],
-                    [1,0,0,0,0,2,0,2,0,0,0,0,1],
-                    [1,0,1,2,1,2,1,0,1,0,1,0,1],
-                    [1,2,2,0,0,0,2,2,0,2,2,0,1],
-                    [1,2,1,2,1,0,1,0,1,0,1,2,1],
-                    [1,0,0,0,2,0,2,0,0,0,0,0,1],
-                    [1,0,1,0,1,0,1,0,1,0,1,0,1],
-                    [1,0,0,2,0,0,0,0,0,2,0,2,1],
-                    [1,2,1,0,1,0,1,0,1,0,1,0,1],
-                    [1,0,2,0,2,0,2,0,2,2,2,0,1],
-                    [1,0,1,2,1,0,1,0,1,0,1,2,1],
-                    [1,0,2,2,0,0,0,2,0,0,0,2,1],
-                    [1,2,1,0,1,0,1,0,1,2,1,2,1],
-                    [1,0,0,2,0,2,0,2,2,0,0,0,1],
-                    [1,0,1,0,1,0,1,2,1,2,1,0,1],
-                    [1,0,0,2,0,0,2,0,0,2,0,0,1],
-                    [1,1,1,1,1,1,1,1,1,1,1,1,1],
+    var iBall=0;
+    var iBigBall=0;
 
-                ]);
+    var iNewBigBall=0;
+    var iWallBreakable=0;
 
+    for(var y_=0;y_< tMap.length;y_++){
+        for(var x_=0;x_ < tMap[0].length;x_++){
+            if(tMap[y_][x_]===1){
+                modelWall.append({x:x_,y:y_});
+
+             }else if(tMap[y_][x_]===2){
+                modelWallBreakable.append({x:x_,y:y_,visible:true});
+
+                tWalkBreakable[x_+'_'+y_]=iWallBreakable;
+                iWallBreakable++;
+
+            }else if(tMap[y_][x_]===0){
+
+            }
+        }
+    }
+    //'blue','red','green','yellow'
 
     var tDetailUser=Array();
     tDetailUser.push( {x:1,y:1,visible:true,img:"persoBlue"} );
@@ -163,138 +200,35 @@ function buildGame(){
     tDetailUser.push( {x:11,y:15,visible:true,img:"persoYellow"} );
 
 
-    for(var iUser=0;iUser<_iNbUser;iUser++){
+    for(var iUser=0;iUser<iNbUser;iUser++){
         modelPerso.append(tDetailUser[iUser]);
     }
 
-    _gameStarted=true;
+    gameStarted=true;
 }
 
-function Map(){
-    this._tMap=new Array();
-    this._iWallBreakable=0;
-    this._iBomb=0;
 
-}
-Map.prototype={
-    isBomb:function(x_,y_){
-        if( this._getValue(x_,y_).type === 'bomb' ){
-            return true;
-        }
-        return false;
-    },
-    isWallBreakable:function(x_,y_){
-        if( this._getValue(x_,y_).type === 'wallBreakable' ){
-            return true;
-        }
-        return false;
-    },
-    isWall:function(x_,y_){
-        if( this._getValue(x_,y_).type === 'wall' ){
-            return true;
-        }
-        return false;
-    },
-    isEmpty:function(x_,y_){
-        if( this._getValue(x_,y_) === '' ){
-            return true;
-        }
-        return false;
-    },
-    iCanWalk:function(x_,y_){
-        if(this.isEmpty(x_,y_) ){
-            return true;
-        }
-        return false;
-    },
-
-    clean:function(x_,y_){
-        this._setValue(x_,y_,'');
-    },
-
-    cleanWallBreakable:function(x_,y_){
-        if( this.isWallBreakable(x_,y_)  ){
-            modelWallBreakable.get( this._getValue(x_,y_).index  ).visible=false;
-            this.clean(x_,y_);
-        }
-    },
-    cleanBomb:function(x_,y_){
-
-        var oBomb=this._getValue(x_,y_);
-
-        if(_sTeam===oBomb.team){
-            _oPageScene.enableBombBtn();
-        }
-
-        modelBomb.remove(oBomb.index );
-        this.clean(x_,y_);
-        this._iBomb--;
-    },
-
-    addWall:function(x_,y_){
-        modelWall.append({x:x_,y:y_});
-
-        var obj={type:'wall'};
-        this._setValue(x_,y_,obj );
-    },
-    addWallBreakable:function(x_,y_){
-        modelWallBreakable.append({x:x_,y:y_,visible:true});
-
-        this._setValue(x_,y_,{type:'wallBreakable',index:this._iWallBreakable} );
-        this._iWallBreakable++;
-    },
-
-    addBomb:function(x_,y_,team_){
-        modelBomb.append({x:x_,y:y_,isTimerActive:_isServer,actionExplose:'false',team:team_});
-
-        this._setValue(x_,y_,{type:'bomb',index:this._iBomb,team:team_} );
-        this._iBomb++;
-
-    },
-    addEmpty:function(x_,y_){
-        this._setValue(x_,y_,'');
-    },
-
-    build:function(tMap_){
-        for(var vary=0;vary < tMap_.length;vary++ ){
-            for(var varx=0;varx < tMap_[0].length;varx++ ){
-
-                if( tMap_[vary][varx] === 1 ){
-                    this.addWall(varx,vary);
-
-                }else if( tMap_[vary][varx] === 2 ){
-                    this.addWallBreakable(varx,vary);
-
-                }else{
-                    this.addEmpty(varx,vary);
-
-                }
-            }
-        }
-    },
-
-    _getValue:function(x_,y_){
-        return this._tMap[y_+'_'+x_];
-    },
-    _setValue:function(x_,y_,value_){
-        this._tMap[y_+'_'+x_]=value_;
-    },
-
-
-
-};
-
-
+//---bomb
 function exploseBomb(x_,y_){
-    if(!_gameStarted){
+    if(!gameStarted){
         return;
     }
 
-    if( _oMap.isWallBreakable(x_,y_) ){
+    if(tMap[y_][x_]===2){
+        tMap[y_][x_]=0;
 
-        _oMap.cleanWallBreakable(x_,y_);
+        console.log('look for tWalkBreakable '+x_+'_'+y_);
+        if(tWalkBreakable[x_+'_'+y_] > -1 ){
 
-    }else if( _oMap.isEmpty(x_,y_) ){
+            var indexBreakable=tWalkBreakable[x_+'_'+y_];
+
+            console.log('remove modelWallBrakable, index : '+indexBreakable);
+            modelWallBreakable.get( indexBreakable  ).visible=false;
+        }
+
+    }else if(tMap[y_][x_]===0){
+
+        console.log('check perso x,y :'+x_+' '+y_);
 
         //loop perso to know if there is anybody
         var maxPerso=modelPerso.count;
@@ -304,9 +238,9 @@ function exploseBomb(x_,y_){
             if(oCheckPerso.x===x_ && oCheckPerso.y===y_){
                 console.log('perso killed');
                 oCheckPerso.visible=false;
-                _iUserAlive-=1;
+                iUserAlive-=1;
 
-                if(_iUserAlive<=1){
+                if(iUserAlive<=1){
                     gotoGameover();
                 }
             }
@@ -314,18 +248,18 @@ function exploseBomb(x_,y_){
 
     }
 }
-
-function removeBomb(x_,y_){
-
-    _oMap.cleanBomb(x_,y_);
-
-
+function removeBomb(index_){
+    console.log('removeBomb : '+index_);
+    if(sTeam===modelBomb.get(index_).team){
+        _oPageScene.enableBombBtn();
+    }
+    tBombInstalled[modelBomb.get(index_).x+"_"+modelBomb.get(index_).y]=-1;
+    modelBomb.remove(index_);
 }
 function putBomb(x_,y_,team_){
-
-    _oMap.addBomb(x_,y_,team_);
-
-    if(_sTeam===team_){
+    modelBomb.append({x:x_,y:y_,isTimerActive:_isServer,actionExplose:'false',team:team_});
+    tBombInstalled[x_+"_"+y_]=1;
+    if(sTeam===team_){
         _oPageScene.disableBombBtn();
     }
 }
@@ -337,15 +271,22 @@ function exploseBombIndex(index_){
 
 
 //---map
-
+function iCanWalk(x_,y_){
+    if(tBombInstalled[x_+"_"+y_]>-1 ){
+        return false;
+    }else if(tMap[y_][x_]===0 || tMap[y_][x_]===4){
+        return true;
+    }
+    return false;
+}
 function iCanWalkDirection(oObject_,direction_){
-    if(direction_==='up' && _oMap.iCanWalk(oObject_.x,oObject_.y-1) ){
+    if(direction_==='up' && iCanWalk(oObject_.x,oObject_.y-1) ){
         return true;
-    }else if(direction_==='down' && _oMap.iCanWalk(oObject_.x,oObject_.y+1) ){
+    }else if(direction_==='down' && iCanWalk(oObject_.x,oObject_.y+1) ){
         return true;
-    }else if(direction_==='left' && _oMap.iCanWalk(oObject_.x-1,oObject_.y) ){
+    }else if(direction_==='left' && iCanWalk(oObject_.x-1,oObject_.y) ){
         return true;
-    }else if(direction_==='right' && _oMap.iCanWalk(oObject_.x+1,oObject_.y) ){
+    }else if(direction_==='right' && iCanWalk(oObject_.x+1,oObject_.y) ){
         return true;
     }
     return false;
@@ -358,12 +299,13 @@ function iCanWalkDirection(oObject_,direction_){
 //---socket
 function socketExplose(index_){
     webSocketClient_send("exploseBombIndex;"+index_);
+
 }
-function socketRemoveBomb(x_,y_){
-    webSocketClient_send("removeBomb;"+x_+"_"+y_);
+function socketRemoveBomb(index_){
+    webSocketClient_send("removeBomb;"+index_);
 }
 function webSocketStartGame(){
-    webSocketClient_send("restart;"+_iNbUser);
+    webSocketClient_send("restart;"+iNbUser);
 }
 
 
@@ -394,28 +336,28 @@ function clickBomb(){
 function webSocketClient_receive(message_){
 
    if(message_.substr(0,8)==='setTeam:'){
-       _bConnected=true;
-       _sTeam=message_.substr(8);
+       bConnected=true;
+       sTeam=message_.substr(8);
 
-       stack.currentItem.webSocketAppendMessage( "Message: vous etes le User "+_sTeam );
+       stack.currentItem.webSocketAppendMessage( "Message: vous etes le User "+sTeam );
        return;
 
    }else if(message_.substr(0,9)==='gotoScene'){
 
        var tStart=message_.split(';');
-       _iNbUser=tStart[1];
+       iNbUser=tStart[1];
 
        gotoScene();
        return;
 
    }else{
        var tMessage=message_.split(':');
-       var iTeamSocket=_tTeamInverse[tMessage[0] ];
-       var oPersoSocket=modelPerso.get(_tTeamInverse[tMessage[0] ] );
+       var iTeamSocket=tTeamInverse[tMessage[0] ];
+       var oPersoSocket=modelPerso.get(tTeamInverse[tMessage[0] ] );
 
        if(tMessage[1].substr(0,7)==='restart'){
            var tStart=tMessage[1].split(';');
-           _iNbUser=tStart[1];
+           iNbUser=tStart[1];
 
            gotoScene();
            return;
@@ -433,9 +375,7 @@ function webSocketClient_receive(message_){
        }else if(tMessage[1].substr(0,16)==='exploseBombIndex'){
            exploseBombIndex(tMessage[1].substr(17) );
        }else if(tMessage[1].substr(0,10)==='removeBomb'){
-           var tArg=tMessage[1].substr(11).split('_');
-
-           removeBomb(tArg[0], tArg[1] );
+           removeBomb(tMessage[1].substr(11) );
        }
 
 
@@ -444,23 +384,22 @@ function webSocketClient_receive(message_){
 }
 function webSocketClient_send(message_){
 
-    if(false===_bConnected){
-        applicationData.connectClient(_urlWebsocket+":"+_urlWebsocketPort);
+    if(false===bConnected){
+        main.webSocketConnectServer(_urlWebsocket+":"+_urlWebsocketPort);
 
     }else{
-        var iTeamToSend=_tTeamInverse[_sTeam];
-        if(_gameStarted){
+        var iTeamToSend=tTeamInverse[sTeam];
+        if(gameStarted){
             if(modelPerso.get(iTeamToSend).visible===true ){
-                applicationData.sendMessage(_sTeam+":"+message_);
+                main.webSocketSendText(sTeam+":"+message_);
             }else{
                 console.log('gameover can not play');
             }
         }else{
-            applicationData.sendMessage(_sTeam+":"+message_);
+            main.webSocketSendText(sTeam+":"+message_);
         }
     }
 }
-
 
 //server
 function webSocketServer_receive(message_){
@@ -472,17 +411,17 @@ function webSocketServer_receive(message_){
     var tMessage=message_.split(':');
     if(tMessage[0]===''){
 
-        var userTeam=_tTeam[ _iNextTeam ];
+        var userTeam=tTeam[ iNextTeam ];
 
         sUserReturn='setTeam:'+userTeam;
 
         stack.currentItem.webSocketAppendMessage("New User "+userTeam);
 
-        _iNextTeam++;
+        iNextTeam++;
 
     }else if(tMessage[1]==='start'){
 
-        sAllReturn="gotoScene;"+_iNextTeam;
+        sAllReturn="gotoScene;"+iNextTeam;
 
 
     }else{
